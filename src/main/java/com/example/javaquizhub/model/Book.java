@@ -24,6 +24,9 @@ public class Book {
     @Column(name = "author")
     private String author;
 
+    @Column(name = "book_description")
+    private String bookDescription;
+
     @OneToMany(mappedBy = "book")
     List<Test> testList;
 }

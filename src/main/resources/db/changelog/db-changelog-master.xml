@@ -9,4 +9,36 @@
         <sqlFile path="classpath:db/changelog/sql/schema.sql"/>
     </changeSet>
 
+    <changeSet id="addExplanationColumn" author="bondar8524567913@gmail.com">
+        <addColumn tableName="test">
+            <column name="explanation" type="VARCHAR(500)"/>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="addDescriptionColumn" author="bondar8524567913@gmail.com">
+        <addColumn tableName="book">
+            <column name="book_description" type="VARCHAR"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="firstBook" author="bondar8524567913@gmail.com">
+        <sql>
+            INSERT INTO book (author, title, book_description) VALUES ('Bert Bates, Kathy Sierra',
+                                                                       'OCP Java SE 6 Programmer Practice Exams (Exam 310-065)',
+                                                                       'Written by two of the lead developers of the Java SE Programmer Exam, OCP Java SE 6 Programmer Practice Exams is filled with more than 260 realistic practice questions to prepare you for this challenging exam. To help you understand this material, in-depth explanations of both the correct and incorrect answers are included for every question. This practical guide covers all official objectives for Exam 310-065 and is the perfect companion to SCJP Sun Certified Programmer for Java 6 Study Guide.');
+
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="modifyTestColumns" author="bondar8524567913@gmail.com">
+        <modifyDataType tableName="test" columnName="question" newDataType="TEXT"/>
+        <modifyDataType tableName="test" columnName="explanation" newDataType="TEXT"/>
+        <modifyDataType tableName="answer" columnName="answer_text" newDataType="TEXT"/>
+    </changeSet>
+
+    <changeSet id="data_test" author="bondar8524567913@gmail.com">
+        <sqlFile path="classpath:db/changelog/sql/data_test.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

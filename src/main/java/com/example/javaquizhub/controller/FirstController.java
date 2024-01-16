@@ -14,14 +14,6 @@ public class FirstController {
     BookService bookService;
     @RequestMapping("/")
     String openMainPage(){
-        System.out.println("Hello world!");
-
-        Book book = new Book();
-
-        book.setTitle("Example Title");
-        book.setAuthor("Example Author");
-
-      //  bookService.create(book);
         return "Hello world";
     }
 }

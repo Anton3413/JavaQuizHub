@@ -18,6 +18,9 @@ public class Test {
     @Column(name = "question")
     private String questionText;
 
+    @Column(name = "explanation")
+    private String questionExplanation;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "category")
     private Category category;
