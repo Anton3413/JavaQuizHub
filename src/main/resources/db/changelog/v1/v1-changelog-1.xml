@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="addImagePathColumn" author="qwerty">
+        <addColumn tableName="book">
+            <column  name="image_relative_path" type="VARCHAR(500)"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="addFirstBookImage" author="qwerty">
+        <sql>
+            UPDATE book
+            SET image_relative_path = '/images/Oracle_Certified_Professional_Java_SE_8_Programmer_I_Study_Guide.webp'
+            WHERE id = 1;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -24,6 +24,9 @@ public class Book {
     @Column(name = "author")
     private String author;
 
+    @Column(name = "image_relative_path")
+    private String imagePath;
+
     @Column(name = "book_description")
     private String bookDescription;
 
