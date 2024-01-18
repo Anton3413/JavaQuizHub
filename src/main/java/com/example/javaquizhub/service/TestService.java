@@ -18,7 +18,7 @@ public interface TestService {
 
     List<Test> getTestsByBookTitle(String bookTitle);
 
-    List<Test> getTestsByCategory(Category category);
+  //  List<Test> getTestsByCategory(Category category);
 
 
 }

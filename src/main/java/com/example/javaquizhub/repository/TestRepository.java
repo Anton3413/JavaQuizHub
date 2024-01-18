@@ -15,6 +15,6 @@ public interface TestRepository extends JpaRepository<Test,Integer> {
 
     List<Test> getTestsByBookTitle(String bookTitle);
 
-    List<Test> getTestsByCategory(Category category);
+  //  List<Test> getTestsBycA
 
 }

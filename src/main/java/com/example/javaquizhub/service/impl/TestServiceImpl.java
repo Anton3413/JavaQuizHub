@@ -40,8 +40,8 @@ public class TestServiceImpl implements TestService {
        return testRepository.getTestsByBookTitle(bookTitle);
     }
 
-    @Override
-    public List<Test> getTestsByCategory(Category category) {
-       return testRepository.getTestsByCategory(category);
-    }
+   // @Override
+  //  public List<Test> getTestsByCategory(Category category) {
+   //    return testRepository.getTestsByCategory(category);
+   // }
 }

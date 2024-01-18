@@ -7,14 +7,15 @@ public enum Category {
     INHERITANCE("Inheritance"),
     ALGORITHMS("Algorithms");
 
-   private final String name;
+    private final String formattedName;
 
-    private final String getName(){
-        return this.name;
+    public String getFormattedName(){
+        return this.formattedName;
     }
 
-    Category(String name){
-        this.name = name;
+    Category(String formattedName){
+        this.formattedName = formattedName;
     }
+
 }
 

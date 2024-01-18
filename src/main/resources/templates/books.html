@@ -8,10 +8,10 @@
 </head>
 <body>
 <div th:replace="header"></div>
-
+<br>
 <div th:each="book : ${books}">
     <a th:href="@{/book/{id}(id=${book.getId()})}">
-        <img th:src="${book.getImagePath()}" alt="Image" width="100" height="100">
+        <img th:src="${book.getImagePath()}" alt="Image" width="150" height="350">
     </a>
 </div>
 </body>

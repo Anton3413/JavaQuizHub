@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
+    <title>Title</title>
+</head>
+<body>
+<div  class="header-container" th:replace="header"></div>
+<div class="page-container">
+  <div th:if="${book}">
+    <img  th:src="${book.getImagePath()}" alt="book image" width="350" height="430" >
+    <p th:text="'Title: ' + ${book.title}"></p>
+    <p th:text="'Author: ' + ${book.author}"></p>
+    <p th:text="'Book description: ' + ${book.getBookDescription()}"></p>
+  </div>
+
+
+  <div>
+    <form th:action="@{'/book/' + ${book.id} + '/start'}" method="post">
+      <label for="numberOfTests">Number of Tests:</label>
+      <input type="number" name="numberOfTests" id="numberOfTests" required>
+
+      <label for="selectedEnums">Test categories</label>
+      <select name="categories" id="selectedEnums" multiple required>
+        <option th:each="category : ${categories}"
+                th:value="${category}" th:text="${category.getFormattedName()}">
+        </option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div th:unless="${book}">
+    <p>Book not found</p>
+  </div>
+</div>
+</body>
+</html>
