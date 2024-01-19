@@ -3,15 +3,17 @@ package com.example.javaquizhub.model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 public class TestSession {
 
-    int numberOfTests;
+   private final int numberOfTests;
 
-    int bookId;
+   private final int bookId;
 
-    List<Test>
+   HashMap<Test,>
+
+
 }
