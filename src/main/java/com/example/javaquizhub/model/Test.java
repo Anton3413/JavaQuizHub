@@ -32,4 +32,13 @@ public class Test {
     @OneToMany(mappedBy = "test")
     List<TestAnswer> testAnswers;
 
+    @Override
+    public String toString() {
+        return "Test{" +
+                "id=" + id +
+                ", questionText='" + questionText + '\'' +
+                ", questionExplanation='" + questionExplanation + '\'' +
+                ", category=" + category +
+                '}';
+    }
 }

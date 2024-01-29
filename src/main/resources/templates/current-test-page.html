@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+
+</head>
+<body>
+<div th:replace="header"></div>
+
+<div class="test-container">
+
+    <form th:action="@{'/book/' + ${bookId} + '/handleAnswer'}" method="post">
+
+        <input type="hidden" th:name="testId" th:value="${test.getId()}" />
+            Question:
+        <br>
+        <p>
+            <strong><code th:utext="${#strings.replace(test.getQuestionText(), '\n', '<br>')}" class="code-container" /></code>
+        </strong>
+        </p>
+
+        <p>Select an answer:</p>
+        <select name="selectedAnswers" multiple>
+            <option th:each="answer : ${answers}" th:value="${answer.id}" th:text="${answer.optionLetter + '. ' + answer.answerText}"></option>
+        </select>
+
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
+
+
+</body>
+</html>

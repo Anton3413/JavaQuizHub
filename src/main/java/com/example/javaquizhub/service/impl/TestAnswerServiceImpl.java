@@ -1,5 +1,6 @@
 package com.example.javaquizhub.service.impl;
 
+import com.example.javaquizhub.model.Test;
 import com.example.javaquizhub.model.TestAnswer;
 import com.example.javaquizhub.repository.TestAnswerRepository;
 import com.example.javaquizhub.service.TestAnswerService;
@@ -20,5 +21,10 @@ public class TestAnswerServiceImpl implements TestAnswerService {
     @Override
     public List<TestAnswer> findCorrectAnswersByQuestionId(int questionId) {
         return testAnswerRepository.findCorrectAnswersByQuestionId(questionId);
+    }
+
+    @Override
+    public List<TestAnswer> findTestAnswersByTest(Test test) {
+       return testAnswerRepository.findTestAnswersByTest(test);
     }
 }

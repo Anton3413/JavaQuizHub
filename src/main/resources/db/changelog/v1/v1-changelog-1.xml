@@ -18,4 +18,21 @@
         </sql>
     </changeSet>
 
+
+
+    <changeSet id="fixFirstBook" author="qwerty">
+        <sql>
+            UPDATE book
+            SET image_relative_path = '/images/OCP Java SE 6 Programmer Practice Exams (Exam 310-065).webp'
+            WHERE id = 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="12212" author="qq">
+        <sqlFile path="classpath:db/changelog/v1/ddd.sql"/>
+    </changeSet>
+
+    <changeSet id="34324" author="qq">
+        <sqlFile path="classpath:db/changelog/v1/test.sql"/>
+    </changeSet>
 </databaseChangeLog>

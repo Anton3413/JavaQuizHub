@@ -17,8 +17,12 @@
 
 
   <div>
-    <form th:action="@{'/book/' + ${book.id} + '/start'}" method="post">
-      <label for="numberOfTests">Number of Tests:</label>
+   <!-- "@{/book/{id}/start(id= ${book.getId()})}"
+   "@{'/book/' + ${book.getId()} + '/start'}"
+   -->
+
+    <form th:action="@{'/book/' + ${book.getId()} + '/start'}" method="post">
+    <label for="numberOfTests">Number of Tests:</label>
       <input type="number" name="numberOfTests" id="numberOfTests" required>
 
       <label for="selectedEnums">Test categories</label>
