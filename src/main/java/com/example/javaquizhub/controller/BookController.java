@@ -25,7 +25,6 @@ public class BookController {
     public String getBookById(@PathVariable("bookId") int bookId, Model model){
         model.addAttribute("book",bookService.getBookById(bookId));
         model.addAttribute("categories", Category.values());
-        System.out.println(Arrays.toString(Category.values()));
         return "book-details";
     }
 }

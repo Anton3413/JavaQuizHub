@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
     <title>Title</title>
 </head>
 <body>
-<div  class="header-container" th:replace="header"></div>
+<div th:replace="~{header}"></div>
 <div class="page-container">
   <div th:if="${book}">
     <img  th:src="${book.getImagePath()}" alt="book image" width="350" height="430" >
@@ -17,11 +16,8 @@
 
 
   <div>
-   <!-- "@{/book/{id}/start(id= ${book.getId()})}"
-   "@{'/book/' + ${book.getId()} + '/start'}"
-   -->
 
-    <form th:action="@{'/book/' + ${book.getId()} + '/start'}" method="post">
+    <form th:action="@{'/book/' + ${book.getId()} + '/start'}" method="post" >
     <label for="numberOfTests">Number of Tests:</label>
       <input type="number" name="numberOfTests" id="numberOfTests" required>
 

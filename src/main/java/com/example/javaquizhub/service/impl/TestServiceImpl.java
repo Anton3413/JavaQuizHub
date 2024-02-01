@@ -45,4 +45,9 @@ public class TestServiceImpl implements TestService {
         return testRepository.findTestsByBookIdAndCategoryInWithLimit(bookId,categories,limit);
     }
 
+    @Override
+    public int countTestsByBookIdAndCategoryIn(int bookId, List<String> categories) {
+       return testRepository.countTestsByBookIdAndCategoryIn(bookId,categories);
+    }
+
 }

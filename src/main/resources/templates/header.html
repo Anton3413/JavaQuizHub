@@ -1,12 +1,21 @@
-<header>
-<div xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" LANG="eng">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
+    <title>header</title>
+</head>
+<body>
+
+<header class="site-header">
     <nav>
         <ul>
-            <li><a th:href ="@{/}">Java Quiz Hub</a></li>
+            <li><a th:href="@{/}">Java Quiz Hub</a></li>
             <li><a href="/books">Books</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
-</div>
 </header>
+
+</body>
+</html>

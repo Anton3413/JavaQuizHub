@@ -22,4 +22,6 @@ public interface TestService {
 
     List<Test> findTestsByBookIdAndCategoryInWithLimit( int bookId, List<String> categories, int limit);
 
+    int countTestsByBookIdAndCategoryIn( int bookId, List<String> categories);
+
 }

@@ -16,6 +16,8 @@ public interface TestAnswerRepository extends JpaRepository<TestAnswer,Integer> 
     @Query(value = "SELECT * FROM answer WHERE question_id = :questionId AND is_correct = true", nativeQuery = true)
     List<TestAnswer> findCorrectAnswersByQuestionId(int questionId);
 
+
     List<TestAnswer> findTestAnswersByTest(Test test);
+
 }
 

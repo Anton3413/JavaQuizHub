@@ -22,4 +22,9 @@ public interface TestRepository extends JpaRepository<Test,Integer> {
                                                        @Param("categories") List<String> categories,
                                                        @Param("limit") int limit);
 
+    @Query(value = "SELECT COUNT(*) FROM test WHERE book_id = :bookId AND category IN (:categories)", nativeQuery = true)
+    int countTestsByBookIdAndCategoryIn(@Param("bookId") int bookId, @Param("categories") List<String> categories);
+
+
+
 }

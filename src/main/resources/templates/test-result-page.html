@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 
 </head>
 <body>
-<div th:replace="header"></div>
+<div th:replace="~{header}"></div>
 
 <div class="test-container">
     <ul>
         <li th:each="entry : ${resultsMap.entrySet()}">
-            <span th:utext="${#strings.replace(entry.key.getQuestionText(), '\n', '<br>')}" /> : <span th:text="${entry.value}"></span>
+        <span class="code-container">
+            <span th:utext="${#strings.replace(entry.key.getQuestionText(), '\n', '<br>')}"></span>
+        </span>
+            <p>Your Answer:</p>
+            <ul>
+                <li th:each="answer : ${entry.value}">
+                    <span th:text="${answer.optionLetter}"></span> : <span th:text="${answer.answerText}"></span><br/>
+                </li>
+            </ul>
+
+            <p>Explanation:</p>
+            <p th:text="${entry.key.questionExplanation}"></p>
         </li>
     </ul>
+
 
 </div>
 </body>
