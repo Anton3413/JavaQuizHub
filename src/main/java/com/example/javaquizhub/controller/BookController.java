@@ -5,6 +5,8 @@ import com.example.javaquizhub.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -25,6 +27,8 @@ public class BookController {
     public String getBookById(@PathVariable("bookId") int bookId, Model model){
         model.addAttribute("book",bookService.getBookById(bookId));
         model.addAttribute("categories", Category.values());
+        model.addAttribute(BindingResult.MODEL_KEY_PREFIX + "numberOfTests",
+                new BeanPropertyBindingResult(new Object(), "numberOfTests"));
         return "book-details";
     }
 }

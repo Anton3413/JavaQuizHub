@@ -38,6 +38,7 @@ public class TestController {
         BindingResult result = new TestRequestValidator(testService).validate(bookId,numberOfTests,testCategories);
 
         if (result.hasErrors()) {
+            System.out.println(result.getErrorCount());
             model.addAttribute(BindingResult.MODEL_KEY_PREFIX + "numberOfTests", result);
             model.addAttribute("book", bookService.getBookById(bookId));
             model.addAttribute("categories", Category.values());

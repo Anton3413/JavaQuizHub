@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="/css/error-styles.css">
 </head>
 <body>
 <div th:replace="~{header}"></div>
@@ -20,7 +21,7 @@
     <form th:action="@{'/book/' + ${book.getId()} + '/start'}" method="post" >
     <label for="numberOfTests">Number of Tests:</label>
       <input type="number" name="numberOfTests" id="numberOfTests" required>
-
+      <span class="error" th:if="${#fields.hasErrors('numberOfTests')}" th:errors="*{numberOfTests}"></span>
       <label for="selectedEnums">Test categories</label>
       <select name="categories" id="selectedEnums" multiple required>
         <option th:each="category : ${categories}"
