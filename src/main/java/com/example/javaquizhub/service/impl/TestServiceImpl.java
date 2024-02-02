@@ -1,6 +1,6 @@
 package com.example.javaquizhub.service.impl;
 
-import com.example.javaquizhub.model.Category;
+
 import com.example.javaquizhub.model.Test;
 import com.example.javaquizhub.repository.TestRepository;
 import com.example.javaquizhub.service.TestService;

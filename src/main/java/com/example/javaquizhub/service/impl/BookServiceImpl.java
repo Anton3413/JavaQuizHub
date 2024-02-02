@@ -3,7 +3,6 @@ package com.example.javaquizhub.service.impl;
 import com.example.javaquizhub.model.Book;
 import com.example.javaquizhub.repository.BookRepository;
 import com.example.javaquizhub.service.BookService;
-import jakarta.persistence.Access;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
