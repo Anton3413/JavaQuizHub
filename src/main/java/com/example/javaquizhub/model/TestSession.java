@@ -1,19 +1,10 @@
 package com.example.javaquizhub.model;
 
-import com.example.javaquizhub.repository.TestRepository;
-import com.example.javaquizhub.service.TestService;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Getter
@@ -27,12 +18,12 @@ public class TestSession {
 
    private List<Test> testList;
 
-   private HashMap<Test,List<TestAnswer>> answersMap;
+   private List<TestResult> testResults;
 
 
    {
       this.counter = 0;
-      this.answersMap = new HashMap<>();
+      this.testResults = new ArrayList<>();
    }
 
    public TestSession(List<Test> testList){
@@ -48,8 +39,10 @@ public class TestSession {
       return testList.get(counter);
    }
 
-   public void addAnswer(Test test,List<TestAnswer> testAnswerList){
-      answersMap.put(test,testAnswerList);
+   public void addAnswer(Test test,List<TestAnswer> testAnswerList,List<TestAnswer> correctAnswers){
+
+      TestResult testResult = new TestResult(test,testAnswerList,correctAnswers);
+      testResults.add(testResult);
       counter++;
    }
 

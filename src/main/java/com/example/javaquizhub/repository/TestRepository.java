@@ -26,5 +26,4 @@ public interface TestRepository extends JpaRepository<Test,Integer> {
     int countTestsByBookIdAndCategoryIn(@Param("bookId") int bookId, @Param("categories") List<String> categories);
 
 
-
 }

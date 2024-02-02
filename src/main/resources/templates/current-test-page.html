@@ -10,7 +10,7 @@
 <body>
 <div th:replace="~{header}"></div>
 
-<div class="test-container">
+
 
     <form th:action="@{'/book/' + ${bookId} + '/handleAnswer'}" method="post">
 
@@ -18,7 +18,7 @@
             Question:
         <br>
         <p>
-            <code th:utext="${#strings.replace(test.getQuestionText(), '\n', '<br>')}" class="code-container" /></code>
+            <code th:utext="${#strings.replace(test.getQuestionText(), '\n', '<br>')}" class="code-container"></code>
 
         </p>
 
@@ -31,7 +31,6 @@
         <input type="submit" value="Submit">
     </form>
 
-</div>
 
 
 </body>

@@ -12,13 +12,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import javax.xml.bind.ValidationException;
 import java.util.List;
 
 @Controller
@@ -72,8 +67,9 @@ public class TestController {
                                    @RequestParam("selectedAnswers") List<TestAnswer> testAnswers, HttpSession httpSession){
 
         TestSession testSession = (TestSession) httpSession.getAttribute("testSession");
+        List<TestAnswer> correctAnswers = answerService.findCorrectAnswersByQuestionId(testId);
 
-        testSession.addAnswer(testService.getTestById(testId),testAnswers);
+        testSession.addAnswer(testService.getTestById(testId),testAnswers,correctAnswers);
 
         return "redirect:/book/"+ bookId+"/test";
     }
@@ -81,7 +77,7 @@ public class TestController {
     @GetMapping("/book/{bookId}/testResults")
     public String showPageWithTestResults(HttpSession httpSession,@PathVariable("bookId") int bookId, Model model){
         TestSession testSession =(TestSession) httpSession.getAttribute("testSession");
-        model.addAttribute("resultsMap",testSession.getAnswersMap());
+        model.addAttribute("testResults",testSession.getTestResults());
 
         return "test-result-page";
     }
