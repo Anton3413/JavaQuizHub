@@ -21,14 +21,11 @@ public class TestSession {
    private List<TestResult> testResults;
 
 
-   {
-      this.counter = 0;
-      this.testResults = new ArrayList<>();
-   }
-
    public TestSession(List<Test> testList){
       this.numberOfTests = testList.size();
       this.testList = testList;
+      this.counter = 0;
+      this.testResults = new ArrayList<>();
    }
 
    public boolean hasMoreTests(){

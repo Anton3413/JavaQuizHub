@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+
 import java.util.List;
 
 @Controller
@@ -33,13 +35,13 @@ public class TestController {
         BindingResult result = new TestRequestValidator(testService).validate(bookId,numberOfTests,testCategories);
 
         if (result.hasErrors()) {
-            System.out.println(result.getErrorCount());
             model.addAttribute(BindingResult.MODEL_KEY_PREFIX + "numberOfTests", result);
             model.addAttribute("book", bookService.getBookById(bookId));
             model.addAttribute("categories", Category.values());
             return "book-details";
         }
         List<Test> testList = testService.findTestsByBookIdAndCategoryInWithLimit(bookId,testCategories,numberOfTests);
+
         TestSession testSession = new TestSession(testList);
         httpSession.setAttribute("testSession",testSession);
         return "redirect:/book/"+bookId+ "/test";
@@ -48,14 +50,15 @@ public class TestController {
    @GetMapping("/book/{bookId}/test")
     public String getNextTest(HttpSession httpSession, Model model,@PathVariable("bookId") int bookId){
         TestSession testSession = (TestSession)httpSession.getAttribute("testSession");
+       System.out.println(testSession.getCounter());
 
         if(testSession.hasMoreTests()){
             Test test = testSession.getCurrentTest();
-
             List<TestAnswer> answers = answerService.getTestAnswersByTest_Id(test.getId());
 
             model.addAttribute("test",test);
             model.addAttribute("answers",answers);
+
             return "current-test-page";
         }
         return "redirect:/book/"+bookId+"/testResults";
@@ -75,10 +78,11 @@ public class TestController {
     }
 
     @GetMapping("/book/{bookId}/testResults")
-    public String showPageWithTestResults(HttpSession httpSession,@PathVariable("bookId") int bookId, Model model){
-        TestSession testSession =(TestSession) httpSession.getAttribute("testSession");
+    public String showPageWithTestResults(HttpSession httpSession,@PathVariable("bookId") int bookId, Model model,
+                                          SessionStatus status){
+        TestSession testSession = (TestSession) httpSession.getAttribute("testSession");
         model.addAttribute("testResults",testSession.getTestResults());
-
+        status.setComplete();
         return "test-result-page";
     }
 

@@ -21,6 +21,9 @@ public class Test {
     @Column(name = "explanation")
     private String questionExplanation;
 
+    @Column(name = "clarifying_question")
+    private String clarifyingQuestion;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "category")
     private Category category;

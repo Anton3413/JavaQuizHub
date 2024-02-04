@@ -15,14 +15,12 @@
     <form th:action="@{'/book/' + ${bookId} + '/handleAnswer'}" method="post">
 
         <input type="hidden" th:name="testId" th:value="${test.getId()}" />
-            Question:
-        <br>
+
         <p>
             <code th:utext="${#strings.replace(test.getQuestionText(), '\n', '<br>')}" class="code-container"></code>
-
         </p>
 
-        <p>Select an answer:</p>
+         <div th:text="${test.getClarifyingQuestion()}"></div>
         <select name="selectedAnswers" multiple>
             <option th:each="answer : ${answers}" th:value="${answer.id}" th:text="${answer.optionLetter + '. ' + answer.answerText}"></option>
         </select>

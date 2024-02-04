@@ -35,4 +35,15 @@
     <changeSet id="34324" author="qq">
         <sqlFile path="classpath:db/changelog/v1/test.sql"/>
     </changeSet>
+
+    <changeSet id="clarifying_question" author="1">
+        <addColumn tableName="test">
+            <column name="clarifying_question" type="VARCHAR(500)"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="refactor_question_format.sql" author="1">
+        <sqlFile path="classpath:db/changelog/v1/refactor_question_format.sql"/>
+    </changeSet>
 </databaseChangeLog>
