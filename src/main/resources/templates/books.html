@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuizHub Books</title>
+    <style>
+        .book-image {
+            width: 250px;
+            height: 300px;
+            margin-right: 20px;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{header}"></div>
 <br>
-<div th:each="book : ${books}">
+<div th:each="book : ${books}" style="display: inline-block;">
     <a th:href="@{/book/{id}(id=${book.getId()})}">
-        <img th:src="${book.getImagePath()}" alt="Image" width="350" height="430">
+        <img th:src="${book.getImagePath()}" alt="Image" class="book-image">
     </a>
 </div>
 </body>

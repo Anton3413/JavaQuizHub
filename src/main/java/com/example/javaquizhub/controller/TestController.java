@@ -14,12 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 
 @Controller
-@SessionAttributes("testSession")
 public class TestController {
     @Autowired
     TestService testService;
@@ -50,7 +48,6 @@ public class TestController {
    @GetMapping("/book/{bookId}/test")
     public String getNextTest(HttpSession httpSession, Model model,@PathVariable("bookId") int bookId){
         TestSession testSession = (TestSession)httpSession.getAttribute("testSession");
-       System.out.println(testSession.getCounter());
 
         if(testSession.hasMoreTests()){
             Test test = testSession.getCurrentTest();
@@ -78,11 +75,10 @@ public class TestController {
     }
 
     @GetMapping("/book/{bookId}/testResults")
-    public String showPageWithTestResults(HttpSession httpSession,@PathVariable("bookId") int bookId, Model model,
-                                          SessionStatus status){
+    public String showPageWithTestResults(HttpSession httpSession,@PathVariable("bookId") int bookId, Model model){
         TestSession testSession = (TestSession) httpSession.getAttribute("testSession");
         model.addAttribute("testResults",testSession.getTestResults());
-        status.setComplete();
+        httpSession.removeAttribute("testSession");
         return "test-result-page";
     }
 
