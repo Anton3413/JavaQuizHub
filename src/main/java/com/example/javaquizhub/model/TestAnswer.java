@@ -27,13 +27,4 @@ public class TestAnswer {
     @Column(name= "is_correct")
     private boolean isCorrect;
 
-    @Override
-    public String toString() {
-        return "TestAnswer{" +
-                "id=" + id +
-                ", optionLetter=" + optionLetter +
-                ", answerText='" + answerText + '\'' +
-                ", isCorrect=" + isCorrect +
-                '}';
-    }
 }

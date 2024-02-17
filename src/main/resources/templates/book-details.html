@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -18,12 +18,14 @@
 
   <div>
 
-    <form th:action="@{'/book/' + ${book.getId()} + '/start'}" method="post" >
+    <form th:object="${testSessionDTO}"  th:action="@{'/book/' + ${bookId} + '/start'}" method="post"  >
     <label for="numberOfTests">Number of Tests:</label>
-      <input type="number" name="numberOfTests" id="numberOfTests" required>
-      <span class="error" th:if="${#fields.hasErrors('numberOfTests')}" th:errors="*{numberOfTests}"></span>
-      <label for="selectedEnums">Test categories</label>
-      <select name="categories" id="selectedEnums" multiple required>
+      <input type="number" th:field="*{numberOfTests}" id="numberOfTests" required>
+      <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{*}" class="error"></span>
+      <span th:if="${#fields.hasErrors('numberOfTests')}" th:errors="*{numberOfTests}" class="error"></span>
+      <br><br>
+      <label for="testCategories">Test categories</label>
+      <select th:field="*{testCategories}" id="testCategories" multiple required>
         <option th:each="category : ${categories}"
                 th:value="${category}" th:text="${category.getFormattedName()}">
         </option>

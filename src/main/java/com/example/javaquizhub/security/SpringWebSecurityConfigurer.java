@@ -1,6 +1,6 @@
 package com.example.javaquizhub.security;
 
-import org.apache.tomcat.util.http.parser.Authorization;
+/*import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,24 +18,33 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;*/
 
 import java.security.Principal;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class SpringWebSecurityConfigurer {
+/*
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-       http.authorizeHttpRequests((authorize)->authorize.anyRequest().authenticated())
+       http
+               .csrf(csrf->csrf.disable())
+               .authorizeHttpRequests((authorize)->authorize.anyRequest().authenticated())
+               //.httpBasic(Customizer.withDefaults());
                .formLogin(login ->login
                        .loginPage("/login")
-                       .defaultSuccessUrl("/books")
+                       .defaultSuccessUrl("/")
                        .permitAll());
        return http.build();
 
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }*/
 
 }

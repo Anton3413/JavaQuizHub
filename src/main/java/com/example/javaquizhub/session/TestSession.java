@@ -1,5 +1,7 @@
-package com.example.javaquizhub.model;
+package com.example.javaquizhub.session;
 
+import com.example.javaquizhub.model.Test;
+import com.example.javaquizhub.model.TestAnswer;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class TestSession {
       return testList.get(counter);
    }
 
-   public void addAnswer(Test test,List<TestAnswer> testAnswerList,List<TestAnswer> correctAnswers){
+   public void addAnswer(Test test, List<TestAnswer> testAnswerList, List<TestAnswer> correctAnswers){
 
       TestResult testResult = new TestResult(test,testAnswerList,correctAnswers);
       testResults.add(testResult);

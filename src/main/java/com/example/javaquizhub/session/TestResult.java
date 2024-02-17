@@ -1,5 +1,7 @@
-package com.example.javaquizhub.model;
+package com.example.javaquizhub.session;
 
+import com.example.javaquizhub.model.Test;
+import com.example.javaquizhub.model.TestAnswer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TestRequestValidator {
 
-    TestService testService;
+   /* TestService testService;
 
     public TestRequestValidator(TestService testService) {
         this.testService = testService;
@@ -29,5 +29,5 @@ public class TestRequestValidator {
             result.addError(new ObjectError("numberOfTests", "There's not much in this book"));
         }
         return result;
-    }
+    }*/
 }

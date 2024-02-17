@@ -1,15 +1,17 @@
 package com.example.javaquizhub.controller;
 
+import com.example.javaquizhub.dto.TestSessionDTO;
 import com.example.javaquizhub.model.Category;
 import com.example.javaquizhub.model.Test;
 import com.example.javaquizhub.model.TestAnswer;
-import com.example.javaquizhub.model.TestSession;
+import com.example.javaquizhub.session.TestSession;
 import com.example.javaquizhub.service.BookService;
 import com.example.javaquizhub.service.TestAnswerService;
 import com.example.javaquizhub.service.TestService;
 import com.example.javaquizhub.validation.TestRequestValidator;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,31 +20,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class TestController {
-    @Autowired
-    TestService testService;
-    @Autowired
-    TestAnswerService answerService;
-    @Autowired
-    BookService bookService;
+
+    private final TestService testService;
+    private final TestAnswerService answerService;
+    private final BookService bookService;
 
     @PostMapping  ("/book/{bookId}/start")
-    public String startTesting(@PathVariable("bookId") int bookId, @RequestParam("numberOfTests") int numberOfTests,
-                               @RequestParam("categories") List<String> testCategories,
-                               HttpSession httpSession,Model model) {
-        BindingResult result = new TestRequestValidator(testService).validate(bookId,numberOfTests,testCategories);
-
-        if (result.hasErrors()) {
-            model.addAttribute(BindingResult.MODEL_KEY_PREFIX + "numberOfTests", result);
-            model.addAttribute("book", bookService.getBookById(bookId));
+    public String startTesting(@PathVariable("bookId") int bookId,
+                               @Valid TestSessionDTO testSessionDTO,
+                               BindingResult result,Model model) {
+        if(result.hasErrors()){
+            model.addAttribute("book",bookService.getBookById(bookId));
             model.addAttribute("categories", Category.values());
+            model.addAttribute("testSessionDTO", testSessionDTO);
             return "book-details";
         }
+
+
         List<Test> testList = testService.findTestsByBookIdAndCategoryInWithLimit(bookId,testCategories,numberOfTests);
 
         TestSession testSession = new TestSession(testList);
         httpSession.setAttribute("testSession",testSession);
-        return "redirect:/book/"+bookId+ "/test";
+        return "redirect:/book/"+bookId+ "/test";*/
+
+        return "redirect:https://www.google.com.ua/";
     }
 
    @GetMapping("/book/{bookId}/test")

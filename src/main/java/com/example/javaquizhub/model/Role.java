@@ -1,15 +1,16 @@
 package com.example.javaquizhub.model;
 
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
-public enum Role implements GrantedAuthority {
+public enum Role //implements GrantedAuthority {
+{
 
     USER,
     ADMIN,
     MODERATOR;
 
-    @Override
+    /*@Override
     public String getAuthority() {
         return name();
-    }
+    }*/
 }
