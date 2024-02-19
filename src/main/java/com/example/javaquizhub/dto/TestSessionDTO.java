@@ -19,7 +19,6 @@ public class TestSessionDTO {
 
     int bookId;
 
-
     @Positive(message = "Must be greater than 0!")
     int numberOfTests;
 

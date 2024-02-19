@@ -8,7 +8,6 @@ import com.example.javaquizhub.session.TestSession;
 import com.example.javaquizhub.service.BookService;
 import com.example.javaquizhub.service.TestAnswerService;
 import com.example.javaquizhub.service.TestService;
-import com.example.javaquizhub.validation.TestRequestValidator;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ public class TestController {
     @PostMapping  ("/book/{bookId}/start")
     public String startTesting(@PathVariable("bookId") int bookId,
                                @Valid TestSessionDTO testSessionDTO,
-                               BindingResult result,Model model) {
+                               BindingResult result,Model model,HttpSession httpSession) {
         if(result.hasErrors()){
             model.addAttribute("book",bookService.getBookById(bookId));
             model.addAttribute("categories", Category.values());
@@ -38,18 +37,16 @@ public class TestController {
             return "book-details";
         }
 
+        List<Test> testList = testService
+                .findTestsByBookIdAndCategoryInWithLimit(bookId,testSessionDTO
+                        .getTestCategories(),testSessionDTO.getNumberOfTests());
 
-        List<Test> testList = testService.findTestsByBookIdAndCategoryInWithLimit(bookId,testCategories,numberOfTests);
-
-        TestSession testSession = new TestSession(testList);
+        TestSession testSession = TestSession.init(testList);
         httpSession.setAttribute("testSession",testSession);
-        return "redirect:/book/"+bookId+ "/test";*/
-
-        return "redirect:https://www.google.com.ua/";
+        return "redirect:/book/"+bookId+ "/test";
     }
-
    @GetMapping("/book/{bookId}/test")
-    public String getNextTest(HttpSession httpSession, Model model,@PathVariable("bookId") int bookId){
+    public String getNextTest(@PathVariable("bookId")int bookId,HttpSession httpSession, Model model){
         TestSession testSession = (TestSession)httpSession.getAttribute("testSession");
 
         if(testSession.hasMoreTests()){
@@ -63,7 +60,6 @@ public class TestController {
         }
         return "redirect:/book/"+bookId+"/testResults";
     }
-
     @PostMapping("/book/{bookId}/handleAnswer")
     public String handleTestAnswer(@PathVariable("bookId") int bookId,
                                    @RequestParam("testId") int testId,

@@ -2,7 +2,9 @@ package com.example.javaquizhub.session;
 
 import com.example.javaquizhub.model.Test;
 import com.example.javaquizhub.model.TestAnswer;
+import com.example.javaquizhub.service.TestService;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,16 @@ public class TestSession {
    private List<TestResult> testResults;
 
 
-   public TestSession(List<Test> testList){
-      this.numberOfTests = testList.size();
-      this.testList = testList;
-      this.counter = 0;
-      this.testResults = new ArrayList<>();
+   private TestSession(){
+   }
+
+   public  static TestSession init(List<Test> testList){
+      TestSession testSession = new TestSession();
+      testSession.setNumberOfTests(testList.size());
+      testSession.setTestList(testList);
+      testSession.counter = 0;
+      testSession.testResults = new ArrayList<>();
+      return testSession;
    }
 
    public boolean hasMoreTests(){
