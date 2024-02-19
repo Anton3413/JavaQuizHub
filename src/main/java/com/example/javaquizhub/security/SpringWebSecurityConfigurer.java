@@ -1,43 +1,40 @@
 package com.example.javaquizhub.security;
 
-/*import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;*/
 
-import java.security.Principal;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SpringWebSecurityConfigurer {
-/*
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-
        http
                .csrf(csrf->csrf.disable())
-               .authorizeHttpRequests((authorize)->authorize.anyRequest().authenticated())
+               .authorizeHttpRequests(authorize -> authorize
+                       .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                       .permitAll()
+                       .requestMatchers("/book/{bookId}/start").authenticated()
+                       .anyRequest().permitAll())
                //.httpBasic(Customizer.withDefaults());
                .formLogin(login ->login
                        .loginPage("/login")
                        .defaultSuccessUrl("/")
+                       .permitAll())
+               .logout(logout ->logout
+                       .logoutUrl("/logout")
+                       .logoutSuccessUrl("/login?logout")
+                       .invalidateHttpSession(true)
+                       .deleteCookies("JSESSIONID")
                        .permitAll());
+
        return http.build();
 
     }
@@ -45,6 +42,6 @@ public class SpringWebSecurityConfigurer {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }*/
+    }
 
 }

@@ -18,22 +18,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class LoginController {
     private final UserService userService;
 
-   /* @GetMapping("/login")
+    @GetMapping("/login")
     String showLoginPage(){
         return "login-page";
     }
 
-   *//* @GetMapping("/logout")
-    String showLogOutPage(){
+    @GetMapping("/logout")
+    String showLogoutPage(){
         return "exit-page";
-    }*//*
+    }
+
     @GetMapping("/registration")
     String showRegistrationPage(Model model){
         model.addAttribute("user",new User());
         return "registration-page";
     }
 
-    @PostMapping("/registration")
+   /* @PostMapping("/registration")
     String handleRegistrationForm(@ModelAttribute("user") @Valid User user,
                                   BindingResult result, RedirectAttributes redirectAttributes){
 

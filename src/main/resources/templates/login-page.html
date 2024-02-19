@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/login-styles.css"> <!-- Ссылка на новые стили -->
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<!--<div th:replace="~{header}"></div> -->
+<div th:replace="~{header}"></div>
 
-<form method="post" action="/login">
+<form method="post" action="/login" class="custom-login-form">
 
+    <div th:if="${param.error}">
+        Bad credentials
+    </div>
     <label for="username">Username</label>
-    <input type="text" name="username" id="username" required autofocus>
+    <input type="text" name="username" id="username" class="custom-input" required autofocus>
 
     <br>
 
-    <label for = "password">Password</label>
-    <input type = "password" name="password" id = password required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" class="custom-input" required>
 
-    <button type="submit">Sign in</button>
+    <div class="button-container">
+        <button type="submit" class="custom-button">Sign in</button>
+        <button th:onclick="|window.location.href='@{/registration}'|" class="custom-registration-button">Sign up</button>
+    </div>
+
 </form>
-<button th:onclick="|window.location.href='@{/registration}'|">Registration</button>
 
 </body>
 </html>
