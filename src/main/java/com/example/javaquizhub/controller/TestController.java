@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -29,7 +28,8 @@ public class TestController {
     @PostMapping  ("/book/{bookId}/start")
     public String startTesting(@PathVariable("bookId") int bookId,
                                @Valid TestSessionDTO testSessionDTO,
-                               BindingResult result,Model model,HttpSession httpSession) {
+                               BindingResult result, Model model,
+                               HttpSession httpSession) {
         if(result.hasErrors()){
             model.addAttribute("book",bookService.getBookById(bookId));
             model.addAttribute("categories", Category.values());

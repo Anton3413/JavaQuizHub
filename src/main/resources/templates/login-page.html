@@ -9,7 +9,7 @@
 <body>
 <div th:replace="~{header}"></div>
 
-<form method="post" action="/login" class="custom-login-form">
+<form method="post" th:action="@{/login}" class="custom-login-form">
 
     <div th:if="${param.error}">
         Bad credentials
@@ -28,6 +28,11 @@
     </div>
 
 </form>
+
+<div>
+    <p>Login with:</p>
+    <a href="http://localhost:8080/oauth2/authorization/google">Google</a>
+</div>
 
 </body>
 </html>

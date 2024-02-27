@@ -1,8 +1,10 @@
 package com.example.javaquizhub.service;
 
-import org.springframework.stereotype.Service;
+import com.example.javaquizhub.dto.CreateUserDTO;
 
 public interface UserService {
 
-   // void create();
+    void createUser(CreateUserDTO userDTO);
+    boolean existsByUsername(String username);
+
 }

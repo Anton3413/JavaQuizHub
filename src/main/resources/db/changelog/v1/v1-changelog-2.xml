@@ -7,6 +7,17 @@
 <changeSet id="adding user table" author="1">
     <sqlFile path="classpath:db/changelog/v1/user_table.sql"/>
 </changeSet>
+    
+    <changeSet id="addUniqueConstraint" author="1">
+        <addUniqueConstraint
+                tableName="users"
+                constraintName="unique_username_constraint"
+                columnNames="username"/>
+    </changeSet>
+    
+    <changeSet id="changeUserRoleDataType" author="11">
+        <modifyDataType tableName="users" columnName="role" newDataType="VARCHAR(255)"/>
+    </changeSet>
 
 
 </databaseChangeLog>

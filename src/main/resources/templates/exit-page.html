@@ -5,10 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<div>
-    <h2>Вы успешно вышли из системы.</h2>
-    <p>Для входа снова, перейдите на страницу <a href="/login">входа</a>.</p>
-</div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout"/>
+</form>
 
 </body>
 </html>

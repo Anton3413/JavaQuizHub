@@ -1,5 +1,7 @@
 package com.example.javaquizhub.service.impl;
 
+import com.example.javaquizhub.dto.CreateUserDTO;
+import com.example.javaquizhub.mapper.CreateUserDTOMapper;
 import com.example.javaquizhub.repository.UserRepository;
 import com.example.javaquizhub.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.Collections;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+    private final CreateUserDTOMapper createUserDTOMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -28,8 +31,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                .orElseThrow(()->new UsernameNotFoundException("Failed to retrieve user" + username));
     }
 
-    /*@Override
-    public void create() {
+    @Override
+    public void createUser(CreateUserDTO userDTO) {
+        userRepository.save(createUserDTOMapper.map(userDTO));
+    }
 
-    }*/
+    public boolean existsByUsername(String username){
+       return userRepository.existsByUsername(username);
+    }
+
 }
