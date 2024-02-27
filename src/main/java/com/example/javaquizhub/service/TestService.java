@@ -1,10 +1,7 @@
 package com.example.javaquizhub.service;
 
-import com.example.javaquizhub.model.Category;
 import com.example.javaquizhub.model.Test;
-import com.example.javaquizhub.model.TestAnswer;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
 
 import java.util.List;
 

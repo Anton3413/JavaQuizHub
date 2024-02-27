@@ -2,9 +2,7 @@ package com.example.javaquizhub.session;
 
 import com.example.javaquizhub.model.Test;
 import com.example.javaquizhub.model.TestAnswer;
-import com.example.javaquizhub.service.TestService;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
