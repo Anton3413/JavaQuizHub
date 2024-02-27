@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -48,16 +51,20 @@ public class SpringWebSecurityConfigurer {
                        .logoutSuccessUrl("/login")
                        .invalidateHttpSession(true)
                        .deleteCookies("JSESSIONID")
-                       .permitAll())
-                    .oauth2Login( oauth2->oauth2
-                            .loginPage("/login"));
+                       .permitAll());
+                    /*.oauth2Login( oauth2->oauth2
+                            .loginPage("/login"));*/
                           /*  .defaultSuccessUrl("/")
                             .userInfoEndpoint(userInfo-> userInfo
                                     .oidcUserService(oidcUserService())));*/
-
        return http.build();
-
     }
+
+    /*@Bean
+    WebSecurityCustomizer webSecurityCustomizer(){
+        return  web -> web.debug(true);
+    }*/
+
 
     /*private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService(){
          return userRequest ->{

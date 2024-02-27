@@ -36,7 +36,6 @@ public class LoginController {
                                   BindingResult result, Model model){
 
         if(result.hasErrors()){
-            model.addAttribute("user", createUserDTO);
             return "registration-page";
         }
 

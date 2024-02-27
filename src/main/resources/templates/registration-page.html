@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/error-styles.css">
 </head>
 <body>
 <div th:replace="~{header}"></div>
 
-<form method="post" th:object="${user}" th:action="@{/registration}">
+<form method="POST" th:object="${user}" th:action="@{/registration}">
 
     <label for="username">Username</label>
     <input type="text" th:field="*{username}" id="username" required placeholder="John Doe">
@@ -16,9 +17,14 @@
     <label for="password">Password</label>
     <input type="password" id="password" th:field="*{rawPassword}">
     <span th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}" class="error"></span>
+<br>
 
+    <label for="matchingPassword">Confirm password</label>
+    <input type="password" id="matchingPassword" th:field="*{matchingPassword}">
+    <span th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+    </span>
     <button type="submit">Register</button>
 </form>
-
 </body>
 </html>
