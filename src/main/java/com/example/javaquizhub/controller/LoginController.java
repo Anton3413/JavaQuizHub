@@ -32,7 +32,7 @@ public class LoginController {
         return "registration-page";
     }
     @PostMapping("/registration")
-    String handleRegistrationForm(@ModelAttribute("user") @Valid CreateUserDTO createUserDTO,
+    String registerUserAccount(@ModelAttribute("user") @Valid CreateUserDTO createUserDTO,
                                   BindingResult result, Model model){
 
         if(result.hasErrors()){

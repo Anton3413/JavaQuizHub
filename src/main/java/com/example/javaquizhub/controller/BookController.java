@@ -4,10 +4,14 @@ import com.example.javaquizhub.dto.TestSessionDTO;
 import com.example.javaquizhub.model.Category;
 import com.example.javaquizhub.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.UUID;
 
 
 @Controller
