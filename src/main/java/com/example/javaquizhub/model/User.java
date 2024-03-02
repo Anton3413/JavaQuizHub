@@ -14,12 +14,15 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
-@NoArgsConstructor
 public class User implements UserDetails {
 
+    public User(){
+        this.enabled = false;
+    }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
+    private Integer id;
 
     @Column(name = "username", unique = true)
     private String username;
@@ -29,8 +32,14 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private VerificationToken verificationToken;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

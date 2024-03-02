@@ -19,5 +19,21 @@
         <modifyDataType tableName="users" columnName="role" newDataType="VARCHAR(255)"/>
     </changeSet>
 
+    <changeSet id="createTokenTable" author="11">
+        <sql>
+            CREATE TABLE verification_token (
+                                                id SERIAL PRIMARY KEY,
+                                                token VARCHAR(255) NOT NULL,
+                                                user_id INTEGER REFERENCES users,
+                                                expiry_date TIMESTAMP NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="addEnabledColumnToUser" author="11">
+        <addColumn tableName="users">
+            <column name="enabled" type="BOOLEAN"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>
