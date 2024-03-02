@@ -1,6 +1,7 @@
 package com.example.javaquizhub.service.impl;
 
 import com.example.javaquizhub.dto.CreateUserDTO;
+import com.example.javaquizhub.exception.AccountNotActivatedException;
 import com.example.javaquizhub.mapper.CreateUserDTOMapper;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.model.VerificationToken;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if(user==null){
             throw  new UsernameNotFoundException("No user found with username: " + username);
+        }
+        if(!user.isEnabled()){
+            throw new AccountNotActivatedException("Account has not been activated");
         }
 
         return new org.springframework.security.core.userdetails.User(
