@@ -5,7 +5,6 @@ import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.EventListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;

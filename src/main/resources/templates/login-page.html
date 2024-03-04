@@ -12,7 +12,7 @@
 <form method="post" th:action="@{/login}" class="custom-login-form">
 
     <div th:if="${param.error}">
-        Bad credentials
+        Unable to login. The email or password is incorrect
     </div>
     <label for="username">Username</label>
     <input type="text" name="username" id="username" class="custom-input" required autofocus>

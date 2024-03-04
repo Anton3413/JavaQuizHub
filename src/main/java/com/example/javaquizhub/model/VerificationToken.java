@@ -2,8 +2,6 @@ package com.example.javaquizhub.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -18,8 +16,10 @@ public class VerificationToken {
 
     private static final int EXPIRATION_1_HOUR = 60;
 
+    private static final int EXPIRATION_1_MINUTE = 1;
+
     public VerificationToken(){
-        this.expiryDate = calculateExpiryDate(EXPIRATION_15_MINUTES);
+        this.expiryDate = calculateExpiryDate(EXPIRATION_1_MINUTE);
     }
 
     @Id

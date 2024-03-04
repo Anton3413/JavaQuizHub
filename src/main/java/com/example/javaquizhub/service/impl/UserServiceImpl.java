@@ -1,26 +1,25 @@
 package com.example.javaquizhub.service.impl;
 
 import com.example.javaquizhub.dto.CreateUserDTO;
-import com.example.javaquizhub.exception.AccountNotActivatedException;
+import com.example.javaquizhub.exception.custom_exceptions.AccountNotActivatedException;
+import com.example.javaquizhub.exception.custom_exceptions.TokenException;
 import com.example.javaquizhub.mapper.CreateUserDTOMapper;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.model.VerificationToken;
 import com.example.javaquizhub.repository.UserRepository;
 import com.example.javaquizhub.repository.VerificationTokenRepository;
 import com.example.javaquizhub.service.UserService;
+import com.example.javaquizhub.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService, VerificationTokenService {
 
     private final UserRepository userRepository;
     private final CreateUserDTOMapper createUserDTOMapper;
@@ -36,12 +35,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if(user==null){
-            throw  new UsernameNotFoundException("No user found with username: " + username);
+            throw  new UsernameNotFoundException("Unable to login. The email or password is incorrect");
         }
-        if(!user.isEnabled()){
-            throw new AccountNotActivatedException("Account has not been activated");
+        if (!user.isEnabled()) {
+            throw new AccountNotActivatedException(
+                    "This account is not activated. " +
+                            "To complete the registration, follow the link in the letter that was sent to your email address. " +
+                            "We also recommend you check the \"Spam\" category."
+            );
         }
-
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
@@ -63,17 +65,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public User getUser(String verificationToken){
-       return tokenRepository.findByToken(verificationToken).get().getUser();
+        return tokenRepository.findByToken(verificationToken)
+                .map(VerificationToken::getUser)
+                .orElseThrow(() -> new TokenException("token " + verificationToken +
+                        "not found or user with such token does not exist"));
     }
-
      public VerificationToken getVerificationToken(String token){
-        return tokenRepository.findByToken(token).orElseThrow(RuntimeException::new);
+        return tokenRepository.findByToken(token)
+                        .orElseThrow( () -> new TokenException("Such a token does not exist"));
     }
-
-    VerificationToken getTokenByUser(User user){
-        return tokenRepository.findByUser(user).orElseThrow(RuntimeException::new);
+    public VerificationToken getTokenByUser(User user){
+        return tokenRepository.findByUser(user)
+                .orElseThrow( () -> new TokenException("Token for this user is not found.\n" +
+                        "(Likely, this user does not exist.)"));
     }
-
     public void saveRegisteredUser(User user) {
         userRepository.save(user);
     }
