@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
-    <link rel="stylesheet" type="text/css" href="/css/login-styles.css"> <!-- Ссылка на новые стили -->
+    <link rel="stylesheet" type="text/css" href="/css/login-styles.css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -11,9 +12,8 @@
 
 <form method="post" th:action="@{/login}" class="custom-login-form">
 
-    <div th:if="${param.error}">
-        Unable to login. The email or password is incorrect
-    </div>
+    <div th:if="${message!=null}" th:text="${message}"></div>
+
     <label for="username">Username</label>
     <input type="text" name="username" id="username" class="custom-input" required autofocus>
 

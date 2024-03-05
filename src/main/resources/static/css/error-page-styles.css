@@ -1,0 +1,28 @@
+body {
+    font-family:  sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #FEFEFE; /* Изменено на цвет фона картинки */
+}
+
+.error-container {
+    max-width: 400px; /* Максимальная ширина контейнера с контентом */
+    margin: 50px auto; /* Выравнивание по центру страницы */
+    background-color: #FEFEFE; /* Изменено на цвет фона картинки */
+    padding: 20px;
+    border-radius: 10px; /* Скругление углов контейнера */
+}
+
+img {
+    max-width: 100%; /* Максимальная ширина изображения */
+    height: auto; /* Автоматическая высота, чтобы избежать искажений */
+    margin-bottom: 10px; /* Уменьшил отступ снизу от изображения */
+    border: none; /* Убираем рамку у изображения */
+}
+
+.error-message {
+    font-size: 20px; /* Увеличил размер шрифта */
+    font-family: 'Roboto', sans-serif; /* Заменил на гротеск */
+    color: #333; /* Цвет текста */
+}

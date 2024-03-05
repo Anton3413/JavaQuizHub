@@ -11,6 +11,7 @@ import com.example.javaquizhub.repository.VerificationTokenRepository;
 import com.example.javaquizhub.service.UserService;
 import com.example.javaquizhub.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
     }
      public VerificationToken getVerificationToken(String token){
         return tokenRepository.findByToken(token)
-                        .orElseThrow( () -> new TokenException("Such a token does not exist"));
+                        .orElseThrow( () -> new TokenException("Oops! It seems that such a token does not exist"));
     }
     public VerificationToken getTokenByUser(User user){
         return tokenRepository.findByUser(user)

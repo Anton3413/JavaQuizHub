@@ -36,4 +36,18 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="changeImagePathOfBookTable" author="11">
+        <sql>
+            UPDATE book
+            SET image_relative_path = '/books' || image_relative_path;
+        </sql>
+    </changeSet>
+    
+    <changeSet id="fixPreviousIncorrectChangeSet" author="11">
+        <sql>
+        UPDATE book
+        SET image_relative_path = REPLACE(image_relative_path, '/books/images/', '/images/books/');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
