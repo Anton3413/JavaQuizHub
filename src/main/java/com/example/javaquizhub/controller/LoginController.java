@@ -27,7 +27,10 @@ public class LoginController {
     private final ApplicationEventPublisher publisher;
 
     @GetMapping("/login")
-    String showLoginPage(){
+    public String loginPage(@RequestParam(name = "error", required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("errorMessage", error);
+        }
         return "login-page";
     }
 

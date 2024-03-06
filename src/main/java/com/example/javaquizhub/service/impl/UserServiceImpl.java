@@ -1,7 +1,6 @@
 package com.example.javaquizhub.service.impl;
 
 import com.example.javaquizhub.dto.CreateUserDTO;
-import com.example.javaquizhub.exception.custom_exceptions.AccountNotActivatedException;
 import com.example.javaquizhub.exception.custom_exceptions.TokenException;
 import com.example.javaquizhub.mapper.CreateUserDTOMapper;
 import com.example.javaquizhub.model.User;
@@ -11,7 +10,6 @@ import com.example.javaquizhub.repository.VerificationTokenRepository;
 import com.example.javaquizhub.service.UserService;
 import com.example.javaquizhub.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,13 +35,6 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
 
         if(user==null){
             throw  new UsernameNotFoundException("Unable to login. The email or password is incorrect");
-        }
-        if (!user.isEnabled()) {
-            throw new AccountNotActivatedException(
-                    "This account is not activated. " +
-                            "To complete the registration, follow the link in the letter that was sent to your email address. " +
-                            "We also recommend you check the \"Spam\" category."
-            );
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),

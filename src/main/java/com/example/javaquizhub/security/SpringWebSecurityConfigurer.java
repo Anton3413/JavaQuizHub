@@ -44,6 +44,7 @@ public class SpringWebSecurityConfigurer {
                        .anyRequest().permitAll())
                .formLogin(login ->login
                        .loginPage("/login")
+                       .failureHandler(customAuthenticationFailureHandler())
                        .defaultSuccessUrl("/")
                        .permitAll())
                .logout(logout ->logout
@@ -58,6 +59,10 @@ public class SpringWebSecurityConfigurer {
                             .userInfoEndpoint(userInfo-> userInfo
                                     .oidcUserService(oidcUserService())));*/
        return http.build();
+    }
+
+    CustomAuthenticationFailureHandler customAuthenticationFailureHandler(){
+     return new CustomAuthenticationFailureHandler();
     }
 
     /*@Bean

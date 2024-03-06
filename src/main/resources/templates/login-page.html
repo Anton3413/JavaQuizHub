@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
     <link rel="stylesheet" type="text/css" href="/css/login-styles.css">
@@ -12,7 +11,8 @@
 
 <form method="post" th:action="@{/login}" class="custom-login-form">
 
-    <div th:if="${message!=null}" th:text="${message}"></div>
+    <div th:if="${errorMessage !=null}" th:text="${errorMessage}"></div>
+
 
     <label for="username">Username</label>
     <input type="text" name="username" id="username" class="custom-input" required autofocus>
