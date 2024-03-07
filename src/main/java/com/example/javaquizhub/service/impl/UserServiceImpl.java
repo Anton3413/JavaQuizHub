@@ -10,11 +10,13 @@ import com.example.javaquizhub.repository.VerificationTokenRepository;
 import com.example.javaquizhub.service.UserService;
 import com.example.javaquizhub.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +84,12 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         verificationToken.setUser(user);
 
         tokenRepository.save(verificationToken);
+    }
+    public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
+        VerificationToken token = tokenRepository.findByToken(existingVerificationToken)
+                .orElseThrow(() ->new TokenException("Token not found"));
+        token.updateToken(UUID.randomUUID().toString());
+        token = tokenRepository.save(token);
+        return token;
     }
 }

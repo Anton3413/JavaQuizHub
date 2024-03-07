@@ -13,12 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class GlobalExceptionHandler {
 
-
     @ExceptionHandler({TokenException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ModelAndView handleTokenException(HttpServletRequest request, TokenException e ){
+    public ModelAndView handleTokenExpiredException(HttpServletRequest request,TokenException e ){
         return getModelAndView(request, HttpStatus.UNAUTHORIZED,"401-error-page",e);
     }
+
     public ModelAndView getModelAndView(HttpServletRequest request,HttpStatus status,
                                         String viewName,Exception e){
 
@@ -31,4 +31,5 @@ public class GlobalExceptionHandler {
 
         return mav;
     }
+
 }

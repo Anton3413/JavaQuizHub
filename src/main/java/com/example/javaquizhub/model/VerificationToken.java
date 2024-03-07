@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 
 @Entity
@@ -38,4 +39,9 @@ public class VerificationToken {
     private LocalDateTime calculateExpiryDate(int expiryTimeInMinutes) {
         return LocalDateTime.now().plus(expiryTimeInMinutes, ChronoUnit.MINUTES);
     }
+    public void updateToken(String newToken){
+        this.token = newToken;
+        this.expiryDate = calculateExpiryDate(EXPIRATION_24_HOURS);
+    }
+
 }
