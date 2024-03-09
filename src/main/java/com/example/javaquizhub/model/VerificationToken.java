@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 
 @Entity
@@ -41,7 +40,7 @@ public class VerificationToken {
     }
     public void updateToken(String newToken){
         this.token = newToken;
-        this.expiryDate = calculateExpiryDate(EXPIRATION_24_HOURS);
+        this.expiryDate = calculateExpiryDate(1);
     }
 
 }

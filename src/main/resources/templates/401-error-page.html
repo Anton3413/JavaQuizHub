@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 <div th:replace="~{header}"></div>
@@ -16,5 +16,26 @@
     <img src="/images/errors/401.webp" alt="401 Error picture">
     <div th:if="${message != null}" class="error-message" th:text="${message}"></div>
 </div>
+<div th:if="${expired == true}">
+    <button  id="resendButton" onclick="resendToken()">Send token</button>
+
+    <script type="text/javascript">
+        var token = '[[${token}]]';
+        console.log("Token value:", token);
+
+        var serverContext = "http://localhost:8080";
+        console.log(serverContext);
+        function resendToken() {
+            console.log("some info");
+            $.get(serverContext + "/resendActivationToken?token=" + token, function (data) {
+                console.log("Операция успешна");
+                alert("Операция успешна");
+                document.getElementById("resendButton").style.display = "none";
+            });
+        }
+    </script>
+
+</div>
+
 </body>
 </html>

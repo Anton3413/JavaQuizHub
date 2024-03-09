@@ -2,7 +2,6 @@ package com.example.javaquizhub.controller;
 
 import com.example.javaquizhub.dto.CreateUserDTO;
 import com.example.javaquizhub.event.event.OnRegistrationCompleteEvent;
-import com.example.javaquizhub.exception.custom_exceptions.TokenException;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,10 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import com.example.javaquizhub.model.VerificationToken;
 
 import java.time.LocalDateTime;
@@ -73,6 +69,7 @@ public class LoginController {
             model.addAttribute("expired", true);
             model.addAttribute("token", token);
             model.addAttribute("message", "Sorry but it looks like this token has expired");
+            return "401-error-page";
         }
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
@@ -81,6 +78,7 @@ public class LoginController {
     }
 
     @GetMapping("/resendActivationToken")
+    @ResponseBody
     public void resendVerificationToken(HttpServletRequest request,
                                         @RequestParam("token") String existingToken) {
 
@@ -94,9 +92,6 @@ public class LoginController {
         SimpleMailMessage message = constructResendVerificationTokenEmail(appUrl,newToken,user);
 
         mailSender.send(message);
-
-        //TODO  info-response for the user that email has been sent
-        //return
     }
 
     private SimpleMailMessage constructResendVerificationTokenEmail
@@ -115,8 +110,9 @@ public class LoginController {
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setSubject("Resend Registration Token");
-        email.setText(message + " rn" + confirmationUrl);
+        email.setText(message);
         email.setTo(user.getUsername());
+
         return email;
     }
 }
