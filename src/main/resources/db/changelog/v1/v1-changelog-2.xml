@@ -50,4 +50,17 @@
         </sql>
     </changeSet>
 
+    <changeSet id="createResetPasswordTable" author="1111">
+        <sql>
+            CREATE TABLE password_reset_token (
+                                                  id SERIAL PRIMARY KEY,
+                                                  token VARCHAR(255) NOT NULL,
+                                                  user_id INT NOT NULL,
+                                                  expiry_date TIMESTAMP NOT NULL,
+                                                  FOREIGN KEY (user_id) REFERENCES "users"(id)
+            );
+
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

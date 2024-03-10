@@ -1,8 +1,11 @@
 package com.example.javaquizhub.service;
 
 import com.example.javaquizhub.dto.CreateUserDTO;
+import com.example.javaquizhub.model.PasswordResetToken;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.model.VerificationToken;
+
+import java.util.Optional;
 
 public interface UserService {
 
@@ -18,5 +21,14 @@ public interface UserService {
     VerificationToken getVerificationToken(String VerificationToken);
 
     VerificationToken generateNewVerificationToken(final String existingVerificationToken);
+
+    User findByUsername(String username);
+
+    void createPasswordResetTokenForUser(User user, String token);
+
+    PasswordResetToken getPasswordResetToken(String token);
+
+    User getUserByPasswordResetToken(String token);
+
 
 }

@@ -3,14 +3,16 @@ package com.example.javaquizhub.service.impl;
 import com.example.javaquizhub.dto.CreateUserDTO;
 import com.example.javaquizhub.exception.custom_exceptions.TokenException;
 import com.example.javaquizhub.mapper.CreateUserDTOMapper;
+import com.example.javaquizhub.model.PasswordResetToken;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.model.VerificationToken;
+import com.example.javaquizhub.repository.PasswordResetTokenRepository;
 import com.example.javaquizhub.repository.UserRepository;
 import com.example.javaquizhub.repository.VerificationTokenRepository;
 import com.example.javaquizhub.service.UserService;
 import com.example.javaquizhub.service.VerificationTokenService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
     private final UserRepository userRepository;
     private final CreateUserDTOMapper createUserDTOMapper;
     private final VerificationTokenRepository tokenRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).get();
 
         if(user==null){
             throw  new UsernameNotFoundException("Unable to login. The email or password is incorrect");
@@ -46,6 +49,11 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
                 credentialsNonExpired,
                 accountNonLocked,
                 Collections.singleton(user.getRole()));
+    }
+
+    public User findByUsername(String username){
+       return userRepository.findByUsername(username)
+               .orElseThrow(()->new EntityNotFoundException("User not found!"));
     }
 
     @Override
@@ -91,5 +99,21 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         token.updateToken(UUID.randomUUID().toString());
         token = tokenRepository.save(token);
         return token;
+    }
+
+    public void createPasswordResetTokenForUser(User user, String token){
+        PasswordResetToken resetToken = new PasswordResetToken(user,token);
+
+        passwordResetTokenRepository.save(resetToken);
+
+    }
+
+    public PasswordResetToken getPasswordResetToken(String token){
+        return passwordResetTokenRepository.findByToken(token);
+    }
+
+    public User getUserByPasswordResetToken(String token){
+
+       return passwordResetTokenRepository.findByToken(token).getUser();
     }
 }

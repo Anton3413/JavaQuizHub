@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
     <link rel="stylesheet" type="text/css" href="/css/login-styles.css">
     <meta charset="UTF-8">
     <title>Title</title>
@@ -24,8 +23,13 @@
     <input type="password" name="password" id="password" class="custom-input" required>
 
     <div class="button-container">
-        <button type="submit" class="custom-button">Sign in</button>
         <button th:onclick="|window.location.href='@{/registration}'|" class="custom-registration-button">Sign up</button>
+
+        <div class="forgot-password-link">
+            <a href="/user/forgotPassword">Forgot your password?</a>
+        </div>
+
+        <button type="submit" class="custom-button">Sign in</button>
     </div>
 
 </form>

@@ -4,8 +4,10 @@ import com.example.javaquizhub.dto.CreateUserDTO;
 import com.example.javaquizhub.event.event.OnRegistrationCompleteEvent;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.service.UserService;
+import com.example.javaquizhub.validation.EmailExistInApp;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import com.example.javaquizhub.model.VerificationToken;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
-public class LoginController {
+public class UserController {
     private final UserService userService;
     private final ApplicationEventPublisher publisher;
     private final JavaMailSender mailSender;
@@ -115,4 +118,35 @@ public class LoginController {
 
         return email;
     }
+
+    @GetMapping("/user/forgotPassword")
+    public String getForgotPasswordPage(){
+        return "forgot-password-page";
+    }
+
+    @PostMapping("/user/forgotPassword")
+    public String handleUserEmailForResetPasswordToken(@RequestParam("email") @EmailExistInApp String email,
+                                                       BindingResult result){
+
+        if(result.hasErrors()){
+            return "forgot-password-page";
+        }
+
+        User user = userService.findByUsername(email);
+
+        userService.createVerificationToken();
+
+    }
+
+    private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
+        final String url = contextPath + "/old/user/changePassword?id=" + user.getId() + "&token=" + token;
+        final String message = messages.getMessage("message.resetPassword", null, locale);
+        final SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(user.getEmail());
+        email.setSubject("Reset Password");
+        email.setText(message + " \r\n" + url);
+        email.setFrom(env.getProperty("support.email"));
+        return email;
+    }
+
 }

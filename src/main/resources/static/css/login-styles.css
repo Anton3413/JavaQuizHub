@@ -54,3 +54,7 @@ body {
 .custom-registration-button:hover {
     background-color: #2980b9; /* Измените цвет при наведении по вашему вкусу */
 }
+.forgot-password-link a {
+    text-decoration: none;
+    color: #3498db;
+}
