@@ -20,6 +20,7 @@ import com.example.javaquizhub.model.VerificationToken;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -96,6 +97,62 @@ public class UserController {
 
         mailSender.send(message);
     }
+    @GetMapping("/user/forgotPassword")
+    public String getForgotPasswordPage(){
+        return "forgot-password-page";
+    }
+
+    @PostMapping("/user/forgotPassword")
+    public String handleEmailForResetPasswordToken(@RequestParam("email") @EmailExistInApp String email,
+                                                       BindingResult result,HttpServletRequest request,
+                                                   Model model ){
+
+        if(result.hasErrors()){
+            return "forgot-password-page";
+        }
+
+        User user = userService.findByUsername(email);
+
+        String resetToken = UUID.randomUUID().toString();
+        userService.createPasswordResetTokenForUser(user,resetToken);
+
+        String appUrl = "http://" + request.getServerName() +
+                ":" + request.getServerPort() +
+                request.getContextPath() + "/changePassword";
+
+        SimpleMailMessage message = constructChangePasswordEmail(appUrl,resetToken,user);
+
+        mailSender.send(message);
+        String text = "Follow the instructions sent to your email to change your password";
+
+        model.addAttribute("message",text);
+        return "login-page";
+    }
+
+    @GetMapping("/user/changePassword")
+    public String getChangePasswordPage(@RequestParam(name = "token",required = false) String token){
+
+
+    }
+
+
+
+    private SimpleMailMessage constructChangePasswordEmail(final String appUrl, final String token, final User user) {
+        final String activationUrl = appUrl+ "?token="+ token;
+        String message = "Dear JavaQuizHub User,\n\n" +
+                "It seems that  you forgot your password\n" +
+                "Please use the following link to set a new password for your account:\n\n" +
+                activationUrl + "\n\n" +
+                "If you didn't initiate this action, you can safely ignore this message.\n\n" +
+                "Best regards,\n" +
+                "JavaQuizHub Team";
+
+        final SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(user.getUsername());
+        email.setSubject("Reset Password");
+        email.setText(message);
+        return email;
+    }
 
     private SimpleMailMessage constructResendVerificationTokenEmail
             (String appUrl, VerificationToken newToken, User user) {
@@ -116,36 +173,6 @@ public class UserController {
         email.setText(message);
         email.setTo(user.getUsername());
 
-        return email;
-    }
-
-    @GetMapping("/user/forgotPassword")
-    public String getForgotPasswordPage(){
-        return "forgot-password-page";
-    }
-
-    @PostMapping("/user/forgotPassword")
-    public String handleUserEmailForResetPasswordToken(@RequestParam("email") @EmailExistInApp String email,
-                                                       BindingResult result){
-
-        if(result.hasErrors()){
-            return "forgot-password-page";
-        }
-
-        User user = userService.findByUsername(email);
-
-        userService.createVerificationToken();
-
-    }
-
-    private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
-        final String url = contextPath + "/old/user/changePassword?id=" + user.getId() + "&token=" + token;
-        final String message = messages.getMessage("message.resetPassword", null, locale);
-        final SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(user.getEmail());
-        email.setSubject("Reset Password");
-        email.setText(message + " \r\n" + url);
-        email.setFrom(env.getProperty("support.email"));
         return email;
     }
 
