@@ -7,8 +7,8 @@ body {
 
 .custom-login-form {
     max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
+    margin: 50px auto; /* Уменьшаем верхний отступ */
+    padding: 10px 20px 20px 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -43,7 +43,7 @@ body {
 }
 
 .custom-registration-button {
-    background-color: #3498db; /* Цвет можно изменить по вашему вкусу */
+    background-color: #3498db;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -52,9 +52,25 @@ body {
 }
 
 .custom-registration-button:hover {
-    background-color: #2980b9; /* Измените цвет при наведении по вашему вкусу */
+    background-color: #2980b9;
 }
+
 .forgot-password-link a {
     text-decoration: none;
     color: #3498db;
+}
+
+.error-wrapper {
+    height: 30px; /* Высота, в которой будут отображаться сообщения */
+   /* margin-bottom: 10px; *//* Дополнительный отступ после сообщений */
+    position: relative; /* Позиционирование для содержащего элемента */
+    text-align: center; /* Выравнивание содержимого по центру */
+}
+
+.error-message {
+    display: inline-block; /* Сделаем сообщение блочным элементом, чтобы можно было центрировать */
+    background-color: #ffcccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ff0000;
 }

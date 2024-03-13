@@ -10,9 +10,11 @@
 
 <form method="post" th:action="@{/login}" class="custom-login-form">
 
-    <div th:if="${errorMessage !=null}" th:text="${errorMessage}"></div>
+    <div class="error-wrapper" th:classappend="${errorMessage != null or message != null} ? 'show'">
+        <div th:if="${errorMessage != null}" class="error-message" th:text="${errorMessage}"></div>
+        <div th:if="${message != null}" class="error-message" th:text="${message}"></div>
+    </div>
 
-    <div th:if="message!= null" th:text="${message}"></div>
 
     <label for="username">Username</label>
     <input type="text" name="username" id="username" class="custom-input" required autofocus>
@@ -23,7 +25,7 @@
     <input type="password" name="password" id="password" class="custom-input" required>
 
     <div class="button-container">
-        <button th:onclick="|window.location.href='@{/registration}'|" class="custom-registration-button">Sign up</button>
+        <button type="button" th:onclick="|window.location.href='@{/registration}'|" class="custom-registration-button">Sign up</button>
 
         <div class="forgot-password-link">
             <a href="/user/forgotPassword">Forgot your password?</a>
