@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @PasswordMatches
-public class CreateUserDTO {
+public class CreateUserDTO implements PasswordHolder {
 
     @UniqueUsername
     @ValidEmail

@@ -1,10 +1,10 @@
 package com.example.javaquizhub.controller;
 
 import com.example.javaquizhub.dto.CreateUserDTO;
+import com.example.javaquizhub.dto.PasswordDTO;
 import com.example.javaquizhub.event.event.OnRegistrationCompleteEvent;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.service.UserService;
-import com.example.javaquizhub.validation.EmailExistInApp;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -103,22 +103,22 @@ public class UserController {
     }
 
     @PostMapping("/user/forgotPassword")
-    public String handleEmailForResetPasswordToken(@RequestParam("email") @EmailExistInApp String email,
-                                                       BindingResult result,HttpServletRequest request,
+    public String handleEmailForResetPasswordToken(@ModelAttribute("email") String email,HttpServletRequest request,
                                                    Model model ){
 
-        if(result.hasErrors()){
+        User user = userService.findByUsername(email);
+        if(user==null){
+            model.addAttribute("emailError",
+                    "A user with this email was not found. Enter the email you provided during registration");
             return "forgot-password-page";
         }
-
-        User user = userService.findByUsername(email);
 
         String resetToken = UUID.randomUUID().toString();
         userService.createPasswordResetTokenForUser(user,resetToken);
 
         String appUrl = "http://" + request.getServerName() +
                 ":" + request.getServerPort() +
-                request.getContextPath() + "/changePassword";
+                "/user/changePassword";
 
         SimpleMailMessage message = constructChangePasswordEmail(appUrl,resetToken,user);
 
@@ -130,13 +130,43 @@ public class UserController {
     }
 
     @GetMapping("/user/changePassword")
-    public String getChangePasswordPage(@RequestParam(name = "token",required = false) String token){
+    public String getChangePasswordPage(@RequestParam(name = "token") String token, Model model){
 
+        String result = userService.validatePasswordResetToken(token);
 
+        if(result!=null){
+            model.addAttribute("message",result);
+            return "login-page";
+        }
+        return "redirect:/user/updatePassword?token=" + token;
     }
 
+    @GetMapping("/user/updatePassword")
+    public String showUpdatePasswordPage(@RequestParam(name = "token") String token,Model model){
 
+        PasswordDTO passwordDTO = new PasswordDTO(token);
 
+        model.addAttribute("passwordDTO",passwordDTO);
+
+        return "update-password-page";
+    }
+
+    @PostMapping("/user/updatePassword")
+    public String handleNewPasswordDTO(@Valid PasswordDTO passwordDTO,
+                                       BindingResult result,
+                                       Model model){
+        if(result.hasErrors()){
+            return "update-password-page";
+        }
+        String validationResult = userService.validatePasswordResetToken(passwordDTO.getToken());
+        if(validationResult!=null){
+            model.addAttribute("message",validationResult);
+            return "login-page";
+        }
+        userService.changeUserPassword(passwordDTO);
+        model.addAttribute("message","Your password has been successfully changed");
+        return "login-page";
+    }
     private SimpleMailMessage constructChangePasswordEmail(final String appUrl, final String token, final User user) {
         final String activationUrl = appUrl+ "?token="+ token;
         String message = "Dear JavaQuizHub User,\n\n" +

@@ -24,16 +24,17 @@ public class PasswordResetToken {
         super();
         this.user = user;
         this.token = token;
-        this.expiryDate = this.calculateExpiryDate(EXPIRATION_1_MINUTE);
+        this.expiryDate = this.calculateExpiryDate(EXPIRATION_15_MINUTES);
     }
 
     public PasswordResetToken(final String token) {
         super();
         this.token = token;
-        this.expiryDate = calculateExpiryDate(EXPIRATION_1_MINUTE);
+        this.expiryDate = calculateExpiryDate(EXPIRATION_15_MINUTES );
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "password_reset_token_id_seq")
+    @SequenceGenerator(name = "password_reset_token_id_seq", sequenceName = "password_reset_token_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "token")
