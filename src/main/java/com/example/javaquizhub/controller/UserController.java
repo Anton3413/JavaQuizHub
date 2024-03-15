@@ -36,10 +36,10 @@ public class UserController {
     @GetMapping("/login")
     public String loginPage(@RequestParam(name = "error", required = false)String error, HttpServletRequest request,Model model)  {
 
-        AuthenticationException exception = (AuthenticationException) request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        AuthenticationException exception = (AuthenticationException) request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
 
         if(exception!=null){
-            System.out.println("ne null!!");
+            System.out.println(exception.getMessage());
             model.addAttribute("errorMessage",exception.getMessage());
         }
         return "login-page";

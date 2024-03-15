@@ -63,12 +63,8 @@ public class SpringWebSecurityConfigurer {
        return http.build();
     }
 
-    CustomAuthenticationFailureHandler customAuthenticationFailureHandler(){
-     return new CustomAuthenticationFailureHandler();
-    }
-
-    SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler(){
-        return new SimpleUrlAuthenticationFailureHandler("/login");
+    CustomSimpleUrlAuthenticationHandler simpleUrlAuthenticationFailureHandler(){
+        return new CustomSimpleUrlAuthenticationHandler();
     }
 
     /*@Bean
