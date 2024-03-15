@@ -39,13 +39,14 @@ public class RegistrationListener  implements ApplicationListener<OnRegistration
     private SimpleMailMessage generateMessage(String confirmationUrl, String email){
         final String text = "Thank you for registering with JavaQuizHub!\n\n"
                 + "To complete your registration, please click on the following link:\n"
-                + "\r\n" +  confirmationUrl + "\n\n"
+                + "\n" +  confirmationUrl + "\n"
                 + "If you did not register on JavaQuizHub, please ignore this email.\n\n"
                 + "Best regards,\n"
                 + "The JavaQuizHub Team";
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
+        message.setFrom("JavaQuizHub");
         message.setSubject("Registration confirmation");
         message.setText(text);
         return message;

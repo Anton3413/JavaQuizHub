@@ -12,11 +12,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.javaquizhub.model.VerificationToken;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -30,9 +34,13 @@ public class UserController {
     private final JavaMailSender mailSender;
 
     @GetMapping("/login")
-    public String loginPage(@RequestParam(name = "error", required = false) String error, Model model) {
-        if (error != null) {
-            model.addAttribute("errorMessage", error);
+    public String loginPage(@RequestParam(name = "error", required = false)String error, HttpServletRequest request,Model model)  {
+
+        AuthenticationException exception = (AuthenticationException) request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+
+        if(exception!=null){
+            System.out.println("ne null!!");
+            model.addAttribute("errorMessage",exception.getMessage());
         }
         return "login-page";
     }
@@ -50,7 +58,8 @@ public class UserController {
 
     @PostMapping("/registration")
     String registerUserAccount(@ModelAttribute("user") @Valid CreateUserDTO createUserDTO,
-                               BindingResult result, HttpServletRequest httpServletRequest) {
+                               BindingResult result, HttpServletRequest httpServletRequest,
+                               Model model) {
 
         if (result.hasErrors()) {
             return "registration-page";
@@ -59,6 +68,9 @@ public class UserController {
         String contextPathAppUrl = httpServletRequest.getContextPath();
 
         publisher.publishEvent(new OnRegistrationCompleteEvent(user, contextPathAppUrl));
+
+        model.addAttribute("message",
+                "To complete registration, follow the instructions sent to: " +user.getUsername());
         return "login-page";
     }
 

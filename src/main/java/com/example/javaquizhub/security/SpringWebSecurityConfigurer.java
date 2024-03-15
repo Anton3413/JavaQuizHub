@@ -21,6 +21,8 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 
 @Configuration
@@ -44,7 +46,7 @@ public class SpringWebSecurityConfigurer {
                        .anyRequest().permitAll())
                .formLogin(login ->login
                        .loginPage("/login")
-                       .failureHandler(customAuthenticationFailureHandler())
+                       .failureHandler(simpleUrlAuthenticationFailureHandler())
                        .defaultSuccessUrl("/")
                        .permitAll())
                .logout(logout ->logout
@@ -63,6 +65,10 @@ public class SpringWebSecurityConfigurer {
 
     CustomAuthenticationFailureHandler customAuthenticationFailureHandler(){
      return new CustomAuthenticationFailureHandler();
+    }
+
+    SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler(){
+        return new SimpleUrlAuthenticationFailureHandler("/login");
     }
 
     /*@Bean
