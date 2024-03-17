@@ -36,10 +36,8 @@ public class UserController {
     @GetMapping("/login")
     public String loginPage(@RequestParam(name = "error", required = false)String error, HttpServletRequest request,Model model)  {
 
-        AuthenticationException exception = (AuthenticationException) request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
-
-        if(exception!=null){
-            System.out.println(exception.getMessage());
+        if(error!=null){
+            AuthenticationException exception = (AuthenticationException) request.getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
             model.addAttribute("errorMessage",exception.getMessage());
         }
         return "login-page";
@@ -121,18 +119,17 @@ public class UserController {
         User user = userService.findByUsername(email);
         if(user==null){
             model.addAttribute("emailError",
-                    "A user with this email was not found. Enter the email you provided during registration");
+                    "A user with this email was not found");
             return "forgot-password-page";
         }
 
-        String resetToken = UUID.randomUUID().toString();
-        userService.createPasswordResetTokenForUser(user,resetToken);
+       String newGeneratedToken =  userService.createPasswordResetTokenForUser(user);
 
         String appUrl = "http://" + request.getServerName() +
                 ":" + request.getServerPort() +
                 "/user/changePassword";
 
-        SimpleMailMessage message = constructChangePasswordEmail(appUrl,resetToken,user);
+        SimpleMailMessage message = constructChangePasswordEmail(appUrl,newGeneratedToken,user);
 
         mailSender.send(message);
         String text = "Follow the instructions sent to your email to change your password";
@@ -144,17 +141,17 @@ public class UserController {
     @GetMapping("/user/changePassword")
     public String getChangePasswordPage(@RequestParam(name = "token") String token, Model model){
 
-        String result = userService.validatePasswordResetToken(token);
+        String validationResult = userService.validatePasswordResetToken(token);
 
-        if(result!=null){
-            model.addAttribute("message",result);
+        if(!validationResult.equals("valid")){
+            model.addAttribute("message",validationResult);
             return "login-page";
         }
         return "redirect:/user/updatePassword?token=" + token;
     }
 
     @GetMapping("/user/updatePassword")
-    public String showUpdatePasswordPage(@RequestParam(name = "token") String token,Model model){
+    public String showUpdatePasswordPage(@RequestParam(name = "token",required = true) String token,Model model){
 
         PasswordDTO passwordDTO = new PasswordDTO(token);
 
@@ -171,7 +168,7 @@ public class UserController {
             return "update-password-page";
         }
         String validationResult = userService.validatePasswordResetToken(passwordDTO.getToken());
-        if(validationResult!=null){
+        if(!validationResult.equals("valid")){
             model.addAttribute("message",validationResult);
             return "login-page";
         }

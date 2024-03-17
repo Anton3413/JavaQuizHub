@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class CustomSimpleUrlAuthenticationHandler implements AuthenticationFailureHandler {
     protected final Log logger = LogFactory.getLog(this.getClass());
-    private String defaultFailureUrl = "/login";
+    private String defaultFailureUrl = "/login?error";
     private boolean forwardToDestination = false;
     private boolean allowSessionCreation = true;
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();

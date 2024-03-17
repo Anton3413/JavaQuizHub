@@ -5,7 +5,7 @@ import com.example.javaquizhub.model.User;
 
 public interface PasswordResetTokenService {
 
-    void createPasswordResetTokenForUser(User user, String token);
+    String createPasswordResetTokenForUser(User user);
 
     PasswordResetToken getPasswordResetToken(String token);
 

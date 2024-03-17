@@ -30,7 +30,7 @@ public class PasswordResetToken {
     public PasswordResetToken(final String token) {
         super();
         this.token = token;
-        this.expiryDate = calculateExpiryDate(EXPIRATION_15_MINUTES );
+        this.expiryDate = calculateExpiryDate(EXPIRATION_15_MINUTES);
     }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "password_reset_token_id_seq")
@@ -52,6 +52,6 @@ public class PasswordResetToken {
     }
     public void updateToken(String newToken){
         this.token = newToken;
-        this.expiryDate = calculateExpiryDate(1);
+        this.expiryDate = calculateExpiryDate(EXPIRATION_15_MINUTES);
     }
 }

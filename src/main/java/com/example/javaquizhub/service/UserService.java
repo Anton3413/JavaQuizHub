@@ -25,13 +25,13 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    void createPasswordResetTokenForUser(User user, String token);
+    String createPasswordResetTokenForUser(User user);
 
     PasswordResetToken getPasswordResetToken(String token);
 
     User getUserByPasswordResetToken(String token);
 
-    public String validatePasswordResetToken(String token);
+     String validatePasswordResetToken(String token);
 
     void changeUserPassword(PasswordDTO passwordDTO);
 

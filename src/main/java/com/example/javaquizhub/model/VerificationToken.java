@@ -19,7 +19,7 @@ public class VerificationToken {
     private static final int EXPIRATION_1_MINUTE = 1;
 
     public VerificationToken(){
-        this.expiryDate = calculateExpiryDate(EXPIRATION_1_MINUTE);
+        this.expiryDate = calculateExpiryDate(EXPIRATION_24_HOURS);
     }
 
     @Id
@@ -40,7 +40,7 @@ public class VerificationToken {
     }
     public void updateToken(String newToken){
         this.token = newToken;
-        this.expiryDate = calculateExpiryDate(1);
+        this.expiryDate = calculateExpiryDate(EXPIRATION_15_MINUTES);
     }
 
 }

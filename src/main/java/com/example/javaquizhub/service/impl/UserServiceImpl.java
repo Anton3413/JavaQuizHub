@@ -16,6 +16,8 @@ import com.example.javaquizhub.service.VerificationTokenService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,7 +49,11 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         User user = userRepository.findByUsername(username);
 
         if(user==null){
-            throw  new UsernameNotFoundException("Unable to login. The email or password is incorrect");
+            throw  new BadCredentialsException("Unable to login. The email or password is incorrect");
+        }
+
+        if (!user.isEnabled()) {
+            throw new DisabledException("To activate your account, follow the instructions sent to you by email.");
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
@@ -58,7 +64,6 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
                 accountNonLocked,
                 Collections.singleton(user.getRole()));
     }
-
     public User findByUsername(String username){
        return userRepository.findByUsername(username);
     }
@@ -108,11 +113,21 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         return token;
     }
 
-    public void createPasswordResetTokenForUser(User user, String token){
-        PasswordResetToken resetToken = new PasswordResetToken(user,token);
+    public String createPasswordResetTokenForUser(User user){
 
-        passwordResetTokenRepository.save(resetToken);
+        PasswordResetToken oldToken = passwordResetTokenRepository.findByUser(user);
 
+        String newGeneratedResetToken = UUID.randomUUID().toString();
+
+        if(oldToken==null){
+            PasswordResetToken newToken = new PasswordResetToken(user,newGeneratedResetToken);
+            passwordResetTokenRepository.save(newToken);
+        }
+        else{
+            oldToken.updateToken(newGeneratedResetToken);
+            passwordResetTokenRepository.save(oldToken);
+        }
+        return newGeneratedResetToken;
     }
 
     public PasswordResetToken getPasswordResetToken(String token){
@@ -128,9 +143,14 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
     public String validatePasswordResetToken(String token) {
         final PasswordResetToken passToken = passwordResetTokenRepository.findByToken(token);
 
-        return !isTokenFound(passToken) ? "Token is not found"
-                : isTokenExpired(passToken) ? "Sorry but it looks like this token has expired"
-                : null;
+        if(passToken == null){
+            return "Token is not found";
+        }
+
+        if(passToken.getExpiryDate().isBefore(LocalDateTime.now())){
+            return "Sorry but it looks like this token has expired";
+        }
+        return "valid";
     }
 
     private boolean isTokenFound(PasswordResetToken passToken) {
