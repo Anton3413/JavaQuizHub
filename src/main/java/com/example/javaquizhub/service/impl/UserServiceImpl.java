@@ -13,9 +13,7 @@ import com.example.javaquizhub.repository.VerificationTokenRepository;
 import com.example.javaquizhub.service.PasswordResetTokenService;
 import com.example.javaquizhub.service.UserService;
 import com.example.javaquizhub.service.VerificationTokenService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
@@ -147,7 +144,7 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
             return "Token is not found";
         }
 
-        if(passToken.getExpiryDate().isBefore(LocalDateTime.now())){
+        if(!isTokenExpired(passToken)){
             return "Sorry but it looks like this token has expired";
         }
         return "valid";
@@ -167,5 +164,12 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         user.setPassword(passwordEncoder.encode(passwordDTO.getRawPassword()));
 
         userRepository.save(user);
+    }
+    public void deleteVerificationToken(VerificationToken token){
+        tokenRepository.delete(token);
+    }
+
+    public void deleteResetPasswordToken(PasswordResetToken token){
+        passwordResetTokenRepository.delete(token);
     }
 }

@@ -35,4 +35,8 @@ public interface UserService {
 
     void changeUserPassword(PasswordDTO passwordDTO);
 
+    void deleteVerificationToken(VerificationToken token);
+
+    void deleteResetPasswordToken(PasswordResetToken token);
+
 }

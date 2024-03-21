@@ -4,28 +4,37 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="/css/registration-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <div th:replace="~{header}"></div>
 
 <form method="POST" th:object="${user}" th:action="@{/registration}" class="custom-registration-form">
 
-    <div class="error-wrapper" th:classappend="${errorMessage != null or message != null} ? 'show'">
-        <div th:if="${errorMessage != null}" class="error-message" th:text="${errorMessage}"></div>
-        <div th:if="${message != null}" class="error-message" th:text="${message}"></div>
+    <div class="registration-message">
+        <p>Let's start your journey with us!</p>
     </div>
 
     <label for="username">Email</label>
     <input type="text" th:field="*{username}" id="username" class="custom-input" required autofocus>
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"  class="error-message"></div>
 
     <br>
 
     <label for="password">Password</label>
     <input type="password" th:field="*{rawPassword}" id="password" class="custom-input" required>
+    <div th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}" class="error-message"></div>
+
 
     <label for="matchingPassword">Confirm password</label>
     <input type="password" th:field="*{matchingPassword}" id="matchingPassword" class="custom-input" required>
 
+    <span th:if="${#fields.hasGlobalErrors()}">
+        <div th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error-message"></div>
+    </span>
     <div class="button-container">
         <button type="submit" class="custom-button">Register</button>
     </div>

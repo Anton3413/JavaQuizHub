@@ -7,24 +7,18 @@ import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.javaquizhub.model.VerificationToken;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.time.LocalDateTime;
-import java.util.Locale;
-import java.util.UUID;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -88,6 +82,7 @@ public class UserController {
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
         model.addAttribute("message", "Your account has been successfully activated");
+        userService.deleteVerificationToken(verificationToken);
         return "login-page";
     }
 

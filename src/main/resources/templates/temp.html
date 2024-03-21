@@ -13,7 +13,7 @@
   <label for="username">Email</label>
   <input type="text" th:field="*{username}" id="username" required placeholder="John Doe">
   <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"  class="error"></span>
-  <br>
+
   <label for="password">Password</label>
   <input type="password" id="password" th:field="*{rawPassword}">
   <span th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}" class="error"></span>
