@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/css/error-styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/registration-styles.css">
 </head>
 <body>
 <div th:replace="~{header}"></div>
 
-<form method="POST" th:object="${user}" th:action="@{/registration}">
+<form method="POST" th:object="${user}" th:action="@{/registration}" class="custom-registration-form">
+
+    <div class="error-wrapper" th:classappend="${errorMessage != null or message != null} ? 'show'">
+        <div th:if="${errorMessage != null}" class="error-message" th:text="${errorMessage}"></div>
+        <div th:if="${message != null}" class="error-message" th:text="${message}"></div>
+    </div>
 
     <label for="username">Email</label>
-    <input type="text" th:field="*{username}" id="username" required placeholder="John Doe">
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"  class="error"></span>
-<br>
+    <input type="text" th:field="*{username}" id="username" class="custom-input" required autofocus>
+
+    <br>
+
     <label for="password">Password</label>
-    <input type="password" id="password" th:field="*{rawPassword}">
-    <span th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}" class="error"></span>
-<br>
+    <input type="password" th:field="*{rawPassword}" id="password" class="custom-input" required>
 
     <label for="matchingPassword">Confirm password</label>
-    <input type="password" id="matchingPassword" th:field="*{matchingPassword}">
-    <span th:if="${#fields.hasGlobalErrors()}">
-        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
-    </span>
-    <button type="submit">Register</button>
+    <input type="password" th:field="*{matchingPassword}" id="matchingPassword" class="custom-input" required>
+
+    <div class="button-container">
+        <button type="submit" class="custom-button">Register</button>
+    </div>
 </form>
+
 </body>
 </html>

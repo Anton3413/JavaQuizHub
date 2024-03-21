@@ -1,0 +1,60 @@
+/* registration-styles.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-registration-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 10px 20px 20px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.custom-button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #45a049;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.error-wrapper {
+    height: 30px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.error-message {
+    display: inline-block;
+    background-color: #ffcccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ff0000;
+}
