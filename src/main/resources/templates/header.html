@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="eng">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="eng">
 <head>
     <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
 
@@ -14,7 +14,7 @@
             <li><a href="/books">Books</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
-            <li ><a href="/login">Login</a></li>
+            <li sec:authorize="isAuthenticated()" ><img alt="User icon" class="login-icon" src="/images/icons/user.png"> </li>
         </ul>
     </nav>
 </header>

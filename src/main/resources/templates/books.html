@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,13 @@
 <body>
 <div th:replace="~{header}"></div>
 <br>
+<div sec:authorize="isAuthenticated()">
+    Text visible only to authenticated users.
+</div>
+
+<div sec:authorize="!isAuthenticated()">
+    Text visible only to daccd users.
+</div>
 <div th:each="book : ${books}" style="display: inline-block;">
     <a th:href="@{/book/{id}(id=${book.getId()})}">
         <img th:src="${book.getImagePath()}" alt="Image" class="book-image">
