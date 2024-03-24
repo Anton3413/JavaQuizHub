@@ -16,13 +16,7 @@
 <body>
 <div th:replace="~{header}"></div>
 <br>
-<div sec:authorize="isAuthenticated()">
-    Text visible only to authenticated users.
-</div>
 
-<div sec:authorize="!isAuthenticated()">
-    Text visible only to daccd users.
-</div>
 <div th:each="book : ${books}" style="display: inline-block;">
     <a th:href="@{/book/{id}(id=${book.getId()})}">
         <img th:src="${book.getImagePath()}" alt="Image" class="book-image">
