@@ -150,13 +150,9 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
         return "valid";
     }
 
-    private boolean isTokenFound(PasswordResetToken passToken) {
-        return passToken != null;
-    }
-
     private boolean isTokenExpired(PasswordResetToken passToken) {
 
-        return passToken.getExpiryDate().isBefore(LocalDateTime.now());
+        return passToken.getExpiryDate().isAfter(LocalDateTime.now());
     }
     public void changeUserPassword(PasswordDTO passwordDTO){
         User user = getUserByPasswordResetToken(passwordDTO.getToken());

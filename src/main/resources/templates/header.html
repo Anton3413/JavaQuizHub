@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="eng">
 <head>
     <link rel="stylesheet" type="text/css" href="/css/header-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
 
     <title>Java Quiz Hub</title>
 </head>
@@ -9,13 +13,18 @@
 
 <header class="site-header">
     <nav>
-        <ul>
-            <li><a th:href="@{/}">Java Quiz Hub</a></li>
-            <li><a href="/books">Books</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <li sec:authorize="isAuthenticated()" ><img alt="User icon" class="login-icon" src="/images/icons/user.png"> </li>
-        </ul>
+        <div class="nav-item"><a th:href="@{/}">Java Quiz Hub</a></div>
+        <div class="nav-item"><a href="/books">Books</a></div>
+        <div class="nav-item"><a href="#">About</a></div>
+        <div class="nav-item"><a href="#">Contact</a></div>
+        <div class="nav-item">
+            <span sec:authorize="isAuthenticated()" class="login-part">
+                <a href="#" th:text="${#authentication.principal.getUsername()}"></a>
+            </span>
+            <span th:if="${#authentication == null}" class="login-part">
+                <a href="/login" style="color: white; text-decoration: none;">Login</a>
+            </span>
+        </div>
     </nav>
 </header>
 

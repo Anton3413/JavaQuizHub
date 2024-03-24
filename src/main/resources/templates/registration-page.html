@@ -28,7 +28,6 @@
     <input type="password" th:field="*{rawPassword}" id="password" class="custom-input" required>
     <div th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}" class="error-message"></div>
 
-
     <label for="matchingPassword">Confirm password</label>
     <input type="password" th:field="*{matchingPassword}" id="matchingPassword" class="custom-input" required>
 

@@ -3,6 +3,7 @@ package com.example.javaquizhub.dto;
 import com.example.javaquizhub.validation.PasswordMatches;
 import com.example.javaquizhub.validation.UniqueUsername;
 import com.example.javaquizhub.validation.ValidEmail;
+import com.example.javaquizhub.validation.ValidPassword;
 import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,8 +19,7 @@ public class CreateUserDTO implements PasswordHolder {
     @ValidEmail
     private String username;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[A-Z]).{6,}$",
-            message ="It must have a minimum length of 6 characters, contain at least one lowercase letter,one uppercase letter, and one digit.")
+    @ValidPassword
     private String rawPassword;
 
     private String matchingPassword;

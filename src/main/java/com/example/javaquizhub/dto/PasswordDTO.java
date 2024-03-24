@@ -2,6 +2,7 @@ package com.example.javaquizhub.dto;
 
 
 import com.example.javaquizhub.validation.PasswordMatches;
+import com.example.javaquizhub.validation.ValidPassword;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
@@ -19,8 +20,7 @@ public class PasswordDTO implements PasswordHolder {
 
     String token;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[A-Z]).{6,}$",
-            message ="Minimum 6 characters long and include lowercase, uppercase, and digit")
+    @ValidPassword
     String rawPassword;
 
     String matchingPassword;

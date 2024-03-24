@@ -22,7 +22,6 @@ public class BookController {
     String showBooksPage(Model model ){
         model.addAttribute("books",bookService.getAllBooks());
         return "books";
-
     }
 
     @GetMapping("/book/{bookId}")

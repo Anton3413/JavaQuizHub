@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+</head>
+<body>
+<div th:replace="~{header}"></div>
+
+<div>
+  <div th:each="testResult : ${testResults}">
+    <code th:utext="${#strings.replace(testResult.getTest().getQuestionText(), '\n', '<br>')}" class="code-container"></code>
+    <p th:text="${testResult.getTest().getClarifyingQuestion()}" ></p>
+    <p>Your Answer:</p>
+    <div th:each="userAnswer : ${testResult.getUserAnswers()}">
+      <span th:text="${userAnswer.getOptionLetter()}"></span> :
+      <span th:text="${userAnswer.getAnswerText()}"></span><br/>
+    </div>
+    <p>Correct Answer:</p>
+    <div th:each="correctAnswer : ${testResult.getCorrectAnswers()}">
+      <span th:text="${correctAnswer.getOptionLetter()}"></span> :
+      <span th:text="${correctAnswer.getAnswerText()}"></span><br/>
+    </div>
+    <p>Explanation:</p>
+    <p th:text="${testResult.getTest().getQuestionExplanation()}"></p>
+  </div>
+</div>
+
+</body>
+</html>
