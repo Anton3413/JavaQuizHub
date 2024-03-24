@@ -52,7 +52,7 @@ body {
 }
 
 .error-message {
-    display: inline-block;
+     display: inline-block;
     background-color: #ffcccc;
     padding: 5px 10px;
     border-radius: 4px;
