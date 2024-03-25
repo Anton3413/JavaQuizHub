@@ -1,4 +1,4 @@
-package com.example.javaquizhub.security;
+package com.example.javaquizhub.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

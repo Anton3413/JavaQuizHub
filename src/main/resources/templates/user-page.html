@@ -5,12 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<!--
 <div th:replace="~{header}"></div>
--->
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout"/>
-</form>
 
+<div>
+    <p th:text="${#authentication.principal.getUsername()}"></p>
+</div>
 </body>
 </html>

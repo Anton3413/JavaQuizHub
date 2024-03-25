@@ -1,4 +1,4 @@
-package com.example.javaquizhub.security;
+package com.example.javaquizhub.config.security;
 
 import com.example.javaquizhub.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -54,7 +55,8 @@ public class SpringWebSecurityConfigurer {
                        .logoutSuccessUrl("/login")
                        .invalidateHttpSession(true)
                        .deleteCookies("JSESSIONID")
-                       .permitAll());
+                       .permitAll())
+               .oauth2Login(oauth2 -> oauth2.loginPage("/login"));
                     /*.oauth2Login( oauth2->oauth2
                             .loginPage("/login"));*/
                           /*  .defaultSuccessUrl("/")

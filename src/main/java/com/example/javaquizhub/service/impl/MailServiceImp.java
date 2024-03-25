@@ -19,7 +19,7 @@ public class MailServiceImp implements MailService {
 
         final String activationUrl = appUrl+ "?token="+ changePasswordToken;
 
-        String message = "Dear JavaQuizHub User,\n\n" +
+        String text = "Dear JavaQuizHub User,\n\n" +
                 "It seems that  you forgot your password\n" +
                 "Please use the following link to set a new password for your account:\n\n" +
                 activationUrl + "\n\n" +
@@ -27,12 +27,7 @@ public class MailServiceImp implements MailService {
                 "Best regards,\n" +
                 "JavaQuizHub Team";
 
-        final SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(user.getUsername());
-        email.setSubject("Reset Password");
-        email.setText(message);
-
-        mailSender.send(email);
+        sendMessage(user.getUsername(),"Reset Password",text);
     }
 
     @Override
@@ -40,7 +35,7 @@ public class MailServiceImp implements MailService {
         String confirmationUrl =
                 appUrl + "/registrationConfirm?token=" + verificationToken;
 
-        String message = "Dear JavaQuizHub User,\n\n" +
+        String text = "Dear JavaQuizHub User,\n\n" +
                 "It appears that the verification token for your account has expired.\n" +
                 "Please use the following link to obtain a new token and activate your account:\n\n" +
                 confirmationUrl + "\n\n" +
@@ -48,11 +43,29 @@ public class MailServiceImp implements MailService {
                 "Best regards,\n" +
                 "JavaQuizHub Team";
 
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject("Resend Registration Token");
-        email.setText(message);
-        email.setTo(user.getUsername());
+        sendMessage(user.getUsername(),"Resend Registration Token",text);
+    }
 
-        mailSender.send(email);
+    @Override
+    public void sendRegistrationTokenLetter(String confirmationUrl, String email) {
+        final String text = "Thank you for registering with JavaQuizHub!\n\n"
+                + "To complete your registration, please click on the following link:\n"
+                + "\n" +  confirmationUrl + "\n"
+                + "If you did not register on JavaQuizHub, please ignore this email.\n\n"
+                + "Best regards,\n"
+                + "The JavaQuizHub Team";
+
+        sendMessage(email,"Registration",text);
+    }
+
+    private void sendMessage(String to, String subject, String text){
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setFrom("JavaQuizHub");
+        message.setSubject(subject);
+        message.setText(text);
+
+        mailSender.send(message);
     }
 }
