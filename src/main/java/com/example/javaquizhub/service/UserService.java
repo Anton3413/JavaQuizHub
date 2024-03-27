@@ -11,7 +11,10 @@ import java.util.Optional;
 public interface UserService {
 
     User registerNewUserAccount(CreateUserDTO userDTO);
+
     boolean existsByUsername(String username);
+
+    User registerOauthUser(String email);
 
     User getUser(String verificationToken);
 

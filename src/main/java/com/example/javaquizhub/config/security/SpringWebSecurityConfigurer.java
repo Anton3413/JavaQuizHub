@@ -5,25 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import com.example.javaquizhub.model.User;
 
 
 @Configuration
@@ -35,7 +26,7 @@ public class SpringWebSecurityConfigurer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-       http
+        return http
                .anonymous(AbstractHttpConfigurer::disable)
                .authorizeHttpRequests(authorize -> authorize
                        .requestMatchers(PathRequest
@@ -56,13 +47,12 @@ public class SpringWebSecurityConfigurer {
                        .invalidateHttpSession(true)
                        .deleteCookies("JSESSIONID")
                        .permitAll())
-               .oauth2Login(oauth2 -> oauth2.loginPage("/login"));
-                    /*.oauth2Login( oauth2->oauth2
-                            .loginPage("/login"));*/
-                          /*  .defaultSuccessUrl("/")
-                            .userInfoEndpoint(userInfo-> userInfo
-                                    .oidcUserService(oidcUserService())));*/
-       return http.build();
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .userInfoEndpoint(userInfo -> userInfo
+
+                                .oidcUserService(oidcUserService()))).build();
+
     }
 
     SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler(){
@@ -72,22 +62,18 @@ public class SpringWebSecurityConfigurer {
        return handler;
     }
 
-    /*@Bean
-    WebSecurityCustomizer webSecurityCustomizer(){
-        return  web -> web.debug(true);
-    }*/
-
-
-    /*private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService(){
+    private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService(){
          return userRequest ->{
-            String email = userRequest.getIdToken().getClaim("email");
-            UserDetails userDetails = userService.loadUserByUsername(email);
 
+             String email = userRequest.getIdToken().getEmail();
 
-             DefaultOidcUser oidcUser = new DefaultOidcUser(userDetails.getAuthorities(), userRequest.getIdToken());
-             return new DefaultOidcUser(null,null);
-         }
-    }*/
+             User user = userService.findByUsername(email);
 
+             if(user==null){
+                user =  userService.registerOauthUser(email);
+             }
 
+             return new DefaultOidcUser(user.getAuthorities(),userRequest.getIdToken());
+         };
+    }
 }

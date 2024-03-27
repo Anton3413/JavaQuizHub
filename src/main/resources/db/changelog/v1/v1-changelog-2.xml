@@ -63,4 +63,16 @@
         </sql>
     </changeSet>
 
+    <changeSet id="removeNotNullConstraint" author="11">
+        <modifyDataType
+                columnName="password"
+                tableName="users"
+                newDataType="VARCHAR(255)"/>
+    </changeSet>
+
+
+    <changeSet id="removeNotNullConstraint" author="123">
+            <sql>ALTER TABLE users ALTER COLUMN password DROP NOT NULL;</sql>
+    </changeSet>
+
 </databaseChangeLog>

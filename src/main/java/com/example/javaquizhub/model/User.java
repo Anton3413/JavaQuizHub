@@ -26,7 +26,6 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true)
     private String username;
 
-    @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, message = "Password must be at least 6 characters")
     @Column(name = "password")
     private String password;
@@ -36,9 +35,6 @@ public class User implements UserDetails {
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
-
-    /*@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private VerificationToken verificationToken;*/
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

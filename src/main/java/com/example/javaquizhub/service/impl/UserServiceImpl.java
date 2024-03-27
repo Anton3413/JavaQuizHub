@@ -5,6 +5,7 @@ import com.example.javaquizhub.dto.PasswordDTO;
 import com.example.javaquizhub.exception.custom_exceptions.TokenException;
 import com.example.javaquizhub.mapper.CreateUserDTOMapper;
 import com.example.javaquizhub.model.PasswordResetToken;
+import com.example.javaquizhub.model.Role;
 import com.example.javaquizhub.model.User;
 import com.example.javaquizhub.model.VerificationToken;
 import com.example.javaquizhub.repository.PasswordResetTokenRepository;
@@ -73,6 +74,14 @@ public class UserServiceImpl implements UserService, UserDetailsService, Verific
 
     public boolean existsByUsername(String username){
        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public User registerOauthUser(String email) {
+        User user = new User();
+        user.setUsername(email);
+        user.setRole(Role.USER);
+       return userRepository.save(user);
     }
 
     public User getUser(String verificationToken){

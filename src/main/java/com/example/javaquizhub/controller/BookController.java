@@ -21,7 +21,6 @@ public class BookController {
     @GetMapping("/books")
     String showBooksPage(Model model ){
         model.addAttribute("books",bookService.getAllBooks());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return "books";
     }
 
