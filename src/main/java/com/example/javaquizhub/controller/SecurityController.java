@@ -12,11 +12,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Controller
@@ -36,7 +38,10 @@ public class SecurityController {
         return "login-page";
     }
     @GetMapping("/logout")
-    String showLogoutPage() {
+    String showLogoutPage(@AuthenticationPrincipal Principal principal) {
+       /* if(principal==null){
+            return "login-page";
+        }*/
         return "exit-page";
     }
     @GetMapping("/registration")

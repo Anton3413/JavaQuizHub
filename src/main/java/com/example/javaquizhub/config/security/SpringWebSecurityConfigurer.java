@@ -16,6 +16,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import com.example.javaquizhub.model.User;
 
+import java.util.List;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -41,17 +44,11 @@ public class SpringWebSecurityConfigurer {
                        .failureHandler(simpleUrlAuthenticationFailureHandler())
                        .defaultSuccessUrl("/")
                        .permitAll())
-               .logout(logout ->logout
-                       .logoutUrl("/logout")
-                       .logoutSuccessUrl("/login")
-                       .invalidateHttpSession(true)
-                       .deleteCookies("JSESSIONID")
-                       .permitAll())
-                .oauth2Login(oauth2 -> oauth2
+                        .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
                         .userInfoEndpoint(userInfo -> userInfo
-
-                                .oidcUserService(oidcUserService()))).build();
+                                .oidcUserService(oidcUserService())))
+                .build();
 
     }
 
@@ -73,7 +70,7 @@ public class SpringWebSecurityConfigurer {
                 user =  userService.registerOauthUser(email);
              }
 
-             return new DefaultOidcUser(user.getAuthorities(),userRequest.getIdToken());
+             return new DefaultOidcUser(List.of(),userRequest.getIdToken());
          };
     }
 }
