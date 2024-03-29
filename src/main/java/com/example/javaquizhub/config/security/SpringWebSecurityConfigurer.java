@@ -24,7 +24,6 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SpringWebSecurityConfigurer {
-
     private final UserService userService;
 
     @Bean
