@@ -9,6 +9,7 @@ WORKDIR JavaQuizHub
 RUN  chmod +x mvnw && ./mvnw install -DskipTests && cp target/JavaQuizHub-*.jar ./service.jar
 
 
+
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "service.jar"]
 
